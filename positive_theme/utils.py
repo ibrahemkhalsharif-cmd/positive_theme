@@ -50,8 +50,11 @@ def print_font_face_css() -> str:
 	rules = []
 	for family, weight, file in PRINT_FONTS:
 		src = _data_uri(f"fonts/{file}", "font/ttf")
+		# The local() entry is a placeholder that never matches. It keeps url() from following
+		# "src:" directly: before making a PDF, frappe.utils.expand_relative_urls appends
+		# " !important" to every ":url(...)", which would make this src invalid.
 		rules.append(
 			f'@font-face{{font-family:"{family}";font-weight:{weight};font-style:normal;'
-			f'src:url("{src}") format("truetype");}}'
+			f'src:local("Positive {family} {weight}"), url("{src}") format("truetype");}}'
 		)
 	return "\n".join(rules)
