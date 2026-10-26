@@ -1,0 +1,108 @@
+// P5: workspace pages (shortcuts, number cards, charts, link cards).
+
+body[data-route] .widget {
+	border-radius: var(--pt-radius-lg);
+	border: 1px solid var(--pt-border);
+	background: var(--pt-surface-card);
+	box-shadow: var(--pt-shadow-card);
+	transition: border-color var(--pt-duration) var(--pt-ease);
+
+	&:hover {
+		border-color: var(--pt-border-strong);
+	}
+
+	.widget-title {
+		font-weight: 600;
+		color: var(--pt-text);
+	}
+
+	.widget-subtitle,
+	.widget-head .text-muted {
+		color: var(--pt-text-muted);
+	}
+}
+
+// Workspace headings
+body[data-route] .ce-header,
+body[data-route] .workspace-title {
+	font-weight: 700;
+	color: var(--pt-text);
+}
+
+// Shortcuts: a quiet tile with a deep icon; the count pill stays neutral.
+body[data-route] .shortcut-widget-box {
+	.widget-title {
+		gap: 10px;
+	}
+
+	.indicator-pill {
+		background: var(--pt-hover);
+		color: var(--pt-text);
+
+		&::before {
+			background: var(--pt-text);
+		}
+	}
+}
+
+// Link cards
+body[data-route] .links-widget-box .link-item {
+	border-radius: var(--pt-radius-sm);
+	color: var(--pt-text);
+	transition: background-color var(--pt-duration) var(--pt-ease);
+
+	&:hover {
+		background: var(--pt-hover);
+	}
+}
+
+// Number cards
+body[data-route] .number-widget-box {
+	.number {
+		font-size: 28px;
+		line-height: 1.15;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		color: var(--pt-text);
+	}
+}
+
+// The one key number on a dashboard: the first number card of the workspace, shown on a deep
+// card with the accent number. :has() finds the first editor block that holds a number card.
+body[data-route]
+	.ce-block:has(.number-widget-box):not(.ce-block:has(.number-widget-box) ~ .ce-block)
+	.number-widget-box {
+	@include pt-on-shell;
+	background: var(--pt-surface-key);
+	border-color: var(--pt-surface-key);
+
+	.widget-title {
+		color: var(--pt-shell-muted);
+	}
+
+	// !important: Frappe writes each card's configured colour onto .number as an inline style.
+	.number {
+		color: var(--pt-key-number) !important;
+	}
+
+	[data-theme="dark"] & {
+		border-color: color-mix(in srgb, var(--pt-accent) 45%, transparent);
+	}
+}
+
+// Charts: axes and legends use the theme; series colours come from the chart options
+// (positive_theme.bundle.js), because frappe-charts writes them as inline styles.
+body[data-route] .dashboard-widget-box {
+	.chart-legend,
+	.legend-dataset-text,
+	.chart-label {
+		color: var(--pt-text-muted);
+		fill: var(--pt-text-muted);
+	}
+
+	.axis line,
+	.y-axis line,
+	.x-axis line {
+		stroke: var(--pt-border);
+	}
+}
