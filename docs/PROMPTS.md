@@ -49,4 +49,46 @@ Alright the trainer approved it go ahead and start
 I'm signed in at http://localhost in the browser pane. Check the desk screens, fix what breaks, and finish P7 (dark mode and Arabic).
 ```
 
+## 7.
+
+```
+would this affect the ssh server i opened in vs code?
+```
+
+## 8.
+
+```
+i want whatever u just did on the server
+```
+
+## 9.
+
+```
+http://158.158.74.163/ the changes u are making will affect this correct?
+```
+
+## 10.
+
+```
+so the affect will take place at port 8000
+```
+
+## 11.
+
+```
+Alright so when do the designs take place? Meaning the designs u showed me earlier when is it supposed to take placE?
+```
+
+## 12.
+
+```
+Alright while its finishing up the installation i want you to test out the implementation u made on localhost and make sure it matches the design perfectly and make sure to test out everything to make it fully functional width wise, height wise as expected
+```
+
+## 13.
+
+```
+I hit my usage limit while you were working, but it has reset now. Please continue from where you left off.
+```
+
 <!-- Add every further prompt below, copied exactly. -->
