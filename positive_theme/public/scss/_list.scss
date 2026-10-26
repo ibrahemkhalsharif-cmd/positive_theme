@@ -1,0 +1,90 @@
+// P6: list and report views.
+
+body[data-route] {
+	// Standard filters above the list
+	.page-form {
+		gap: 8px;
+		border-block-end: 1px solid var(--pt-border);
+
+		.form-control {
+			background: var(--pt-surface-card);
+			border: 1px solid var(--pt-border-input);
+		}
+	}
+
+	.filter-selector .btn,
+	.sort-selector .btn,
+	.filter-x-button {
+		border: 1px solid var(--pt-border-strong);
+		background: var(--pt-surface-card);
+		color: var(--pt-text);
+		font-weight: 500;
+	}
+
+	.filter-selector .btn.btn-primary-light,
+	.filter-selector .filter-button.btn-primary-light {
+		background: var(--pt-selected);
+		border-color: color-mix(in srgb, var(--pt-accent) 35%, transparent);
+		color: var(--pt-text);
+	}
+
+	// Rows
+	.list-row-head {
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--pt-text-muted);
+		background: var(--pt-surface-card);
+	}
+
+	.list-row-container {
+		border-block-end: 1px solid var(--pt-border);
+	}
+
+	.list-row {
+		transition: background-color var(--pt-duration) var(--pt-ease);
+
+		&:hover {
+			background: var(--pt-hover);
+		}
+	}
+
+	.list-subject {
+		font-weight: 600;
+
+		a {
+			color: var(--pt-text);
+		}
+	}
+
+	.list-row-activity,
+	.list-row-col.text-muted {
+		color: var(--pt-text-muted);
+	}
+
+	.list-row-container.selected .list-row,
+	.list-row-checkbox:checked + * {
+		background: var(--pt-selected);
+	}
+
+	// Paging and page-size buttons
+	.list-paging-area .btn-group .btn {
+		border: 1px solid var(--pt-border-strong);
+		background: transparent;
+		color: var(--pt-text);
+
+		&.btn-info {
+			background: var(--pt-selected);
+			font-weight: 600;
+		}
+	}
+
+	// Report view grid
+	.dt-cell__content,
+	.dt-row-header .dt-cell__content {
+		color: var(--pt-text);
+	}
+
+	.dt-row-header .dt-cell__content {
+		font-weight: 600;
+	}
+}

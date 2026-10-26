@@ -59,6 +59,17 @@ if (window.frappe && frappe.Chart) {
 	};
 }
 
+// Forms --------------------------------------------------------------------------------------
+// Cancelled and Overdue share Frappe's red indicator. Expose the docstatus on the form page so
+// _indicators.scss can give Cancelled its own struck-through style.
+if (window.jQuery) {
+	jQuery(document).on("form-refresh", (event, frm) => {
+		if (frm && frm.page && frm.doc) {
+			frm.page.wrapper.attr("data-pt-docstatus", frm.doc.docstatus);
+		}
+	});
+}
+
 // Login page (www/login.html) ----------------------------------------------------------------
 // Frappe's login.js does the actual sign-in. These handlers only expose its state to CSS.
 if (window.jQuery) {

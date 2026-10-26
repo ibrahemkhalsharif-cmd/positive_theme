@@ -1,0 +1,126 @@
+// P6: form views (header, fields, tabs, child tables, timeline and comments).
+
+body[data-route] {
+	// Tabs: active tab gets the accent underline
+	.form-tabs-list {
+		border-block-end: 1px solid var(--pt-border);
+	}
+
+	.form-tabs .nav-link {
+		color: var(--pt-text-muted);
+		font-weight: 500;
+		border-block-end: 2px solid transparent;
+		transition:
+			color var(--pt-duration) var(--pt-ease),
+			border-color var(--pt-duration) var(--pt-ease);
+
+		&:hover {
+			color: var(--pt-text);
+		}
+
+		&.active {
+			color: var(--pt-text);
+			font-weight: 600;
+			border-block-end-color: var(--pt-accent);
+		}
+	}
+
+	// Sections and fields
+	.form-section .section-head {
+		font-size: 16px;
+		font-weight: 700;
+		color: var(--pt-text);
+	}
+
+	.frappe-control .control-label,
+	.frappe-control .label-area {
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--pt-text);
+	}
+
+	.frappe-control .help-box,
+	.frappe-control .description {
+		color: var(--pt-text-muted);
+	}
+
+	.frappe-control .form-control,
+	.frappe-control .ql-editor,
+	.frappe-control .link-field .form-control {
+		background: var(--pt-surface-card);
+		border: 1px solid var(--pt-border-input);
+	}
+
+	.frappe-control .form-control[disabled],
+	.frappe-control .control-value.like-disabled-input {
+		background: var(--pt-surface-sunken);
+		border-color: transparent;
+		color: var(--pt-text);
+	}
+
+	.has-error .form-control {
+		border-color: var(--pt-danger);
+	}
+
+	// Child tables
+	.form-grid {
+		border: 1px solid var(--pt-border);
+		border-radius: var(--pt-radius-md);
+		overflow: hidden;
+	}
+
+	.grid-heading-row {
+		background: var(--pt-surface-sunken);
+		color: var(--pt-text-muted);
+		font-weight: 600;
+	}
+
+	.grid-row {
+		border-block-end-color: var(--pt-border);
+	}
+
+	.grid-footer .btn {
+		border: 1px solid var(--pt-border-strong);
+		background: transparent;
+		color: var(--pt-text);
+	}
+
+	// Form sidebar: metadata, not navigation, so it stays on the page surface
+	.form-sidebar {
+		color: var(--pt-text);
+
+		.sidebar-label {
+			color: var(--pt-text-muted);
+			font-weight: 600;
+		}
+	}
+
+	// Timeline and comments
+	.new-timeline {
+		&::before {
+			border-color: var(--pt-border-strong);
+		}
+
+		.timeline-dot {
+			background: var(--pt-surface-card);
+			border: 2px solid color-mix(in srgb, var(--pt-text) 45%, transparent);
+		}
+
+		.timeline-badge {
+			background: var(--pt-surface-sunken);
+			color: var(--pt-text);
+			--icon-stroke: var(--pt-text);
+		}
+
+		.timeline-content {
+			color: var(--pt-text);
+		}
+	}
+
+	.timeline-message-box,
+	.comment-box .ql-container {
+		border: 1px solid var(--pt-border);
+		border-radius: var(--pt-radius-md);
+		background: var(--pt-surface-card);
+	}
+}

@@ -1,0 +1,36 @@
+// Status indicators. Colours come from the --bg-* / --text-on-* variables in _frappe.scss; this
+// file only adds what variables cannot express. The ladder, light to dark:
+//   Draft (gray)      hollow, dashed outline
+//   Unpaid (orange)   neutral tint
+//   Partly (yellow)   accent tint
+//   Paid (green)      solid accent
+//   Submitted (blue)  solid deep (solid tint in dark mode)
+//   Overdue (red)     error tint
+//   Cancelled         hollow, error outline, struck through
+
+.indicator-pill,
+.indicator-pill-right {
+	font-weight: 600;
+	letter-spacing: 0.01em;
+}
+
+.indicator-pill:is(.gray, .grey, .light-gray),
+.indicator-pill-right:is(.gray, .grey, .light-gray) {
+	outline: 1px dashed color-mix(in srgb, var(--pt-text-muted) 70%, transparent);
+	outline-offset: -1px;
+}
+
+// Cancelled shares Frappe's red with Overdue. In lists the pill carries its filter; in the form
+// header positive_theme.bundle.js marks the page with the document's docstatus.
+.indicator-pill.red:is([data-filter="docstatus,=,2"], [data-filter="status,=,Cancelled"]),
+[data-pt-docstatus="2"] .page-head .indicator-pill.red {
+	background: transparent;
+	color: var(--pt-text-muted);
+	outline: 1px solid var(--pt-danger-border);
+	outline-offset: -1px;
+	text-decoration: line-through;
+
+	&::before {
+		background: var(--pt-danger);
+	}
+}
