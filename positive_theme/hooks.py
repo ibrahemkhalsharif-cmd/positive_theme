@@ -5,251 +5,52 @@ app_description = "Positive brand theme for ERPNext: tokens, fonts, login page, 
 app_email = "ibrahemkhalsharif@gmail.com"
 app_license = "mit"
 
-# Apps
-# ------------------
+# Everything below is injected through hooks; nothing in frappe, erpnext or hrms is changed.
 
-# required_apps = []
+# Assets
+# ------
+# Built by Frappe's esbuild pipeline (bench build --app positive_theme) from public/*.bundle.*
 
-# Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "positive_theme",
-# 		"logo": "/assets/positive_theme/logo.png",
-# 		"title": "Positive Theme",
-# 		"route": "/positive_theme",
-# 		"has_permission": "positive_theme.api.permission.has_app_permission"
-# 	}
-# ]
+app_include_css = "positive_theme.bundle.css"
+app_include_js = "positive_theme.bundle.js"
+web_include_css = "positive_theme.bundle.css"
+web_include_js = "positive_theme.bundle.js"
 
-# Includes in <head>
-# ------------------
-
-# include js, css files in header of desk.html
-# app_include_css = "/assets/positive_theme/css/positive_theme.css"
-# app_include_js = "/assets/positive_theme/js/positive_theme.js"
-
-# include js, css files in header of web template
-# web_include_css = "/assets/positive_theme/css/positive_theme.css"
-# web_include_js = "/assets/positive_theme/js/positive_theme.js"
-
-# include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "positive_theme/public/scss/website"
-
-# include js, css files in header of web form
-# webform_include_js = {"doctype": "public/js/doctype.js"}
-# webform_include_css = {"doctype": "public/css/doctype.css"}
-
-# include js in page
-# page_js = {"page" : "public/js/file.js"}
-
-# include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
-# doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
-# doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
-
-# Svg Icons
-# ------------------
-# include app icons in desk
-# app_include_icons = "positive_theme/public/icons.svg"
-
-# Home Pages
-# ----------
-
-# application home page (will override Website Settings)
-# home_page = "login"
-
-# website user home page (by Role)
-# role_home_page = {
-# 	"Role": "home_page"
-# }
-
-# Generators
-# ----------
-
-# automatically create page for each record of this doctype
-# website_generators = ["Web Page"]
-
-# Jinja
-# ----------
-
-# add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "positive_theme.utils.jinja_methods",
-# 	"filters": "positive_theme.utils.jinja_filters"
-# }
-
-# Installation
+# Brand images
 # ------------
 
-# before_install = "positive_theme.install.before_install"
-# after_install = "positive_theme.install.after_install"
+app_logo_url = "/assets/positive_theme/images/positive-horizontal-indigo-on-dark.svg"
 
-# Uninstallation
-# ------------
+website_context = {
+	"favicon": "/assets/positive_theme/images/positive-icon-indigo-dark.svg",
+	"splash_image": "/assets/positive_theme/images/positive-icon-indigo-dark.svg",
+}
 
-# before_uninstall = "positive_theme.uninstall.before_uninstall"
-# after_uninstall = "positive_theme.uninstall.after_uninstall"
+# Email
+# -----
+# Email clients do not render SVG, so email uses the PNG export. `embed` makes Frappe attach the
+# image inline (cid:) instead of linking to the site.
 
-# Integration Setup
-# ------------------
-# To set up dependencies/integrations with other apps
-# Name of the app being installed is passed as an argument
+email_brand_image = "assets/positive_theme/images/positive-horizontal-indigo.png"
 
-# before_app_install = "positive_theme.utils.before_app_install"
-# after_app_install = "positive_theme.utils.after_app_install"
+default_mail_footer = """
+	<div class="positive-mail-footer">
+		<img embed="assets/positive_theme/images/positive-horizontal-indigo.png"
+			alt="Positive" width="140" height="46">
+		<div>Simply Smarter</div>
+	</div>
+"""
 
-# Integration Cleanup
+# Print
+# -----
+# Print and PDF cannot read CSS variables, so templates get the brand values from the tokens file.
+
+jinja = {
+	"methods": ["positive_theme.utils.brand_tokens"],
+}
+
+# Install / uninstall
 # -------------------
-# To clean up dependencies/integrations with other apps
-# Name of the app being uninstalled is passed as an argument
 
-# before_app_uninstall = "positive_theme.utils.before_app_uninstall"
-# after_app_uninstall = "positive_theme.utils.after_app_uninstall"
-
-# Desk Notifications
-# ------------------
-# See frappe.core.notifications.get_notification_config
-
-# notification_config = "positive_theme.notifications.get_notification_config"
-
-# Awesome Bar
-# -----------
-# Extra search results: list of dicts with label, description, route, index.
-# route: ["List", "ToDo"], "/desk/docs/some/page", or "https://example.com"
-# awesomebar_search = ["positive_theme.search.awesomebar_results"]
-
-# Permissions
-# -----------
-# Permissions evaluated in scripted ways
-
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
-
-# DocType Class
-# ---------------
-# Override standard doctype classes
-
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
-
-# Document Events
-# ---------------
-# Hook on document methods and events
-
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
-
-# Scheduled Tasks
-# ---------------
-
-# scheduler_events = {
-# 	"all": [
-# 		"positive_theme.tasks.all"
-# 	],
-# 	"daily": [
-# 		"positive_theme.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"positive_theme.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"positive_theme.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"positive_theme.tasks.monthly"
-# 	],
-# }
-
-# Testing
-# -------
-
-# before_tests = "positive_theme.install.before_tests"
-
-# Overriding Methods
-# ------------------------------
-#
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "positive_theme.event.get_events"
-# }
-#
-# each overriding function accepts a `data` argument;
-# generated from the base implementation of the doctype dashboard,
-# along with any modifications made in other Frappe apps
-# override_doctype_dashboards = {
-# 	"Task": "positive_theme.task.get_dashboard_data"
-# }
-
-# exempt linked doctypes from being automatically cancelled
-#
-# auto_cancel_exempted_doctypes = ["Auto Repeat"]
-
-# Ignore links to specified DocTypes when deleting documents
-# -----------------------------------------------------------
-
-# ignore_links_on_delete = ["Communication", "ToDo"]
-
-# Request Events
-# ----------------
-# before_request = ["positive_theme.utils.before_request"]
-# after_request = ["positive_theme.utils.after_request"]
-
-# Job Events
-# ----------
-# before_job = ["positive_theme.utils.before_job"]
-# after_job = ["positive_theme.utils.after_job"]
-
-# User Data Protection
-# --------------------
-
-# user_data_fields = [
-# 	{
-# 		"doctype": "{doctype_1}",
-# 		"filter_by": "{filter_by}",
-# 		"redact_fields": ["{field_1}", "{field_2}"],
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_2}",
-# 		"filter_by": "{filter_by}",
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_3}",
-# 		"strict": False,
-# 	},
-# 	{
-# 		"doctype": "{doctype_4}"
-# 	}
-# ]
-
-# Authentication and authorization
-# --------------------------------
-
-# auth_hooks = [
-# 	"positive_theme.auth.validate"
-# ]
-
-# Automatically update python controller files with type annotations for this app.
-# export_python_type_annotations = True
-
-# default_log_clearing_doctypes = {
-# 	"Logging DocType Name": 30  # days to retain logs
-# }
-
-# Translation
-# ------------
-# List of apps whose translatable strings should be excluded from this app's translations.
-# ignore_translatable_strings_from = []
-
+after_install = "positive_theme.install.after_install"
+before_uninstall = "positive_theme.install.before_uninstall"

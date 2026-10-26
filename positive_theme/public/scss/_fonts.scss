@@ -1,0 +1,39 @@
+// Self-hosted, subset fonts. Poppins carries Latin, Tajawal carries Arabic; unicode-range makes
+// the browser download only the faces a page actually uses.
+
+$pt-latin: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F,
+	U+20AC, U+2122, U+2190-2193, U+2212, U+2215, U+FEFF, U+FFFD;
+$pt-arabic: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+200C-200F, U+2010-2011, U+204F,
+	U+25CC, U+FB50-FDFF, U+FE70-FEFF;
+
+@mixin pt-face($family, $file, $weight, $range) {
+	@font-face {
+		font-family: $family;
+		src: url("/assets/positive_theme/fonts/#{$file}.woff2") format("woff2");
+		font-weight: $weight;
+		font-style: normal;
+		font-display: swap;
+		unicode-range: $range;
+	}
+}
+
+@include pt-face("Poppins", "poppins-latin-regular", 400, $pt-latin);
+@include pt-face("Poppins", "poppins-latin-medium", 500, $pt-latin);
+@include pt-face("Poppins", "poppins-latin-semibold", 600, $pt-latin);
+@include pt-face("Poppins", "poppins-latin-bold", 700, $pt-latin);
+
+// Tajawal has no SemiBold, so its Bold serves 600 and 700.
+@include pt-face("Tajawal", "tajawal-arabic-regular", 400, $pt-arabic);
+@include pt-face("Tajawal", "tajawal-arabic-medium", 500, $pt-arabic);
+@include pt-face("Tajawal", "tajawal-arabic-bold", 600 700, $pt-arabic);
+
+// Metric-matched fallback: while Poppins loads, Arial is scaled to Poppins' metrics so the
+// swap does not move the layout.
+@font-face {
+	font-family: "Poppins Fallback";
+	src: local("Arial"), local("Helvetica Neue"), local("Liberation Sans");
+	size-adjust: 112.5%;
+	ascent-override: 93%;
+	descent-override: 31%;
+	line-gap-override: 9%;
+}

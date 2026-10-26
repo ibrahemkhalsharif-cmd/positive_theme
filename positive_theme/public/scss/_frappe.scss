@@ -1,0 +1,218 @@
+// Re-theme Frappe by overriding its own CSS variables.
+//
+// Not in a @layer on purpose: Frappe's CSS is unlayered, and an unlayered rule always beats a
+// layered one whatever its specificity. Everything that must win over Frappe therefore stays
+// unlayered; tokens and new pt-* components live in layers (see positive_theme.bundle.scss).
+// These blocks load after Frappe's, so equal specificity is enough.
+
+:root,
+[data-theme="light"] {
+	// Type
+	--font-stack: var(--pt-font);
+	--weight-regular: 400;
+	--heading-color: var(--pt-text);
+	--text-neutral: var(--pt-text);
+	--text-color: var(--pt-text);
+	--text-muted: var(--pt-text-muted);
+	--text-light: var(--pt-text-subtle);
+	--text-dark: var(--pt-surface-card);
+	--disabled-text-color: var(--pt-text-subtle);
+
+	// Neutral greys tinted with deep, so Frappe's own grey usages feel on-brand
+	--gray-50: color-mix(in srgb, var(--pt-deep) 3%, var(--pt-white));
+	--gray-100: color-mix(in srgb, var(--pt-deep) 5%, var(--pt-white));
+	--gray-200: color-mix(in srgb, var(--pt-deep) 8%, var(--pt-white));
+	--gray-300: color-mix(in srgb, var(--pt-deep) 13%, var(--pt-white));
+	--gray-400: color-mix(in srgb, var(--pt-deep) 24%, var(--pt-white));
+	--gray-500: color-mix(in srgb, var(--pt-deep) 42%, var(--pt-white));
+	--gray-600: color-mix(in srgb, var(--pt-deep) 58%, var(--pt-white));
+	--gray-700: color-mix(in srgb, var(--pt-deep) 72%, var(--pt-white));
+	--gray-800: color-mix(in srgb, var(--pt-deep) 86%, var(--pt-white));
+	--gray-900: var(--pt-deep);
+
+	// Accent
+	--primary: var(--pt-accent);
+	--primary-color: var(--pt-accent);
+	--brand-color: var(--pt-accent);
+	--btn-primary: var(--pt-accent);
+	--border-primary: var(--pt-accent);
+	--progress-bar-bg: var(--pt-accent);
+	--date-active-bg: var(--pt-accent);
+	--date-active-text: var(--pt-on-accent);
+	--date-range-bg: var(--pt-selected);
+	--checkbox-color: var(--pt-accent);
+	--checkbox-gradient: var(--pt-accent);
+	--switch-bg: var(--gray-400);
+
+	// Surfaces
+	--bg-color: var(--pt-surface-page);
+	--fg-color: var(--pt-surface-card);
+	--card-bg: var(--pt-surface-card);
+	--modal-bg: var(--pt-surface-raised);
+	--popover-bg: var(--pt-surface-raised);
+	--toast-bg: var(--pt-surface-raised);
+	--subtle-accent: var(--pt-surface-sunken);
+	--subtle-fg: var(--pt-hover);
+	--fg-hover-color: var(--pt-hover);
+	--highlight-color: var(--pt-hover);
+	--sidebar-select-color: var(--pt-hover);
+	--control-bg: var(--pt-surface-sunken);
+	--control-bg-on-gray: var(--pt-pressed);
+	--disabled-control-bg: var(--pt-surface-sunken);
+	--input-disabled-bg: var(--pt-hover);
+	--awesomebar-focus-bg: var(--pt-surface-card);
+	--awesomplete-hover-bg: var(--pt-hover);
+	--btn-default-bg: var(--pt-surface-sunken);
+	--btn-default-hover-bg: var(--pt-pressed);
+	--placeholder-color: var(--pt-surface-sunken);
+	--skeleton-bg: var(--pt-hover);
+	--code-block-bg: var(--pt-ink);
+	--code-block-text: var(--pt-tint);
+
+	// Lines
+	--border-color: var(--pt-border);
+	--dark-border-color: var(--pt-border-strong);
+	--table-border-color: var(--pt-border);
+	--btn-group-border-color: var(--pt-border-strong);
+	--shadow-inset: inset 0 -1px 0 var(--pt-border);
+
+	// Shape and depth
+	--border-radius-sm: var(--pt-radius-sm);
+	--border-radius: var(--pt-radius);
+	--border-radius-md: var(--pt-radius-md);
+	--border-radius-lg: var(--pt-radius-lg);
+	--border-radius-xl: var(--pt-radius-xl);
+	--card-shadow: var(--pt-shadow-card);
+	--shadow-sm: var(--pt-shadow-card);
+	--shadow-md: var(--pt-shadow-pop);
+	--shadow-lg: var(--pt-shadow-pop);
+	--shadow-xl: var(--pt-shadow-pop);
+	--shadow-2xl: var(--pt-shadow-pop);
+	--modal-shadow: var(--pt-shadow-pop);
+	--btn-shadow: none;
+
+	// Focus: one ring everywhere
+	--focus-default: var(--pt-focus-ring);
+	--focus-blue: var(--pt-focus-ring);
+	--checkbox-focus-shadow: var(--pt-focus-ring);
+	--highlight-shadow: var(--pt-focus-ring);
+
+	// Sizes
+	--navbar-height: var(--pt-navbar-height);
+	--input-height: 32px;
+	--btn-height: 32px;
+
+	// Status colours. They differ in lightness, not only in hue:
+	// hollow (gray) < tint (orange) < accent tint (yellow) < solid accent (green) < solid deep (blue).
+	// Red keeps the error signal; Cancelled gets its own hollow, struck-through style (_indicators.scss).
+	--bg-green: var(--pt-accent);
+	--text-on-green: var(--pt-on-accent);
+	--bg-blue: var(--pt-deep);
+	--text-on-blue: var(--pt-tint);
+	--bg-light-blue: var(--pt-deep);
+	--text-on-light-blue: var(--pt-tint);
+	--bg-dark-blue: var(--pt-deep);
+	--text-on-dark-blue: var(--pt-tint);
+	--bg-cyan: var(--pt-deep);
+	--text-on-cyan: var(--pt-tint);
+	--bg-purple: var(--pt-deep);
+	--text-on-purple: var(--pt-tint);
+	--bg-yellow: color-mix(in srgb, var(--pt-accent) 18%, var(--pt-white));
+	--text-on-yellow: var(--pt-deep);
+	--bg-orange: color-mix(in srgb, var(--pt-deep) 9%, var(--pt-white));
+	--text-on-orange: var(--pt-deep);
+	--bg-gray: transparent;
+	--text-on-gray: var(--pt-text-muted);
+	--bg-grey: transparent;
+	--text-on-grey: var(--pt-text-muted);
+	--bg-light-gray: transparent;
+	--text-on-light-gray: var(--pt-text-muted);
+	--bg-dark-gray: color-mix(in srgb, var(--pt-deep) 16%, var(--pt-white));
+	--text-on-dark-gray: var(--pt-deep);
+	--bg-darkgrey: color-mix(in srgb, var(--pt-deep) 16%, var(--pt-white));
+	--text-on-darkgrey: var(--pt-deep);
+	--bg-red: var(--pt-danger-bg);
+	--text-on-red: var(--pt-danger);
+	--bg-pink: var(--pt-danger-bg);
+	--text-on-pink: var(--pt-danger);
+
+	// Alerts and errors
+	--alert-text-success: var(--pt-text);
+	--alert-bg-success: var(--pt-selected);
+	--alert-text-info: var(--pt-text);
+	--alert-bg-info: var(--pt-surface-sunken);
+	--alert-text-warning: var(--pt-text);
+	--alert-bg-warning: color-mix(in srgb, var(--pt-deep) 8%, var(--pt-white));
+	--alert-text-danger: var(--pt-danger);
+	--alert-bg-danger: var(--pt-danger-bg);
+	--error-bg: var(--pt-danger-bg);
+	--error-border: var(--pt-danger-border);
+	--appreciation-color: var(--pt-accent-strong);
+	--appreciation-bg: var(--pt-selected);
+	--criticism-color: var(--pt-danger);
+	--criticism-bg: var(--pt-danger-bg);
+
+	// Charts (axis and labels; series colours go in through the chart options, see the JS)
+	--charts-label-color: var(--pt-text-muted);
+	--charts-axis-line-color: var(--pt-border);
+	--charts-tooltip-bg: var(--pt-ink);
+	--charts-tooltip-title: var(--pt-shell-muted);
+	--charts-tooltip-label: var(--pt-shell-muted);
+	--charts-tooltip-value: var(--pt-tint);
+	--charts-legend-label: var(--pt-text-muted);
+
+	// Timeline
+	--timeline-badge-color: var(--pt-text);
+	--timeline-badge-bg: var(--pt-surface-sunken);
+	--user-mention-bg-color: var(--pt-surface-card);
+}
+
+[data-theme="dark"] {
+	--text-dark: var(--pt-ink);
+
+	--gray-50: color-mix(in srgb, var(--pt-tint) 92%, var(--pt-ink));
+	--gray-100: color-mix(in srgb, var(--pt-tint) 84%, var(--pt-ink));
+	--gray-200: color-mix(in srgb, var(--pt-tint) 74%, var(--pt-ink));
+	--gray-300: color-mix(in srgb, var(--pt-tint) 64%, var(--pt-ink));
+	--gray-400: color-mix(in srgb, var(--pt-tint) 52%, var(--pt-ink));
+	--gray-500: color-mix(in srgb, var(--pt-tint) 40%, var(--pt-ink));
+	--gray-600: color-mix(in srgb, var(--pt-tint) 28%, var(--pt-ink));
+	--gray-700: color-mix(in srgb, var(--pt-tint) 16%, var(--pt-deep));
+	--gray-800: color-mix(in srgb, var(--pt-tint) 8%, var(--pt-deep));
+	--gray-900: var(--pt-ink);
+
+	--neutral: var(--pt-ink);
+	--invert-neutral: var(--pt-tint);
+	--icon-stroke: var(--pt-text-muted);
+
+	--bg-green: var(--pt-accent);
+	--text-on-green: var(--pt-on-accent);
+	--bg-blue: var(--pt-tint);
+	--text-on-blue: var(--pt-deep);
+	--bg-light-blue: var(--pt-tint);
+	--text-on-light-blue: var(--pt-deep);
+	--bg-dark-blue: var(--pt-tint);
+	--text-on-dark-blue: var(--pt-deep);
+	--bg-cyan: var(--pt-tint);
+	--text-on-cyan: var(--pt-deep);
+	--bg-purple: var(--pt-tint);
+	--text-on-purple: var(--pt-deep);
+	--bg-yellow: color-mix(in srgb, var(--pt-accent) 30%, var(--pt-deep));
+	--text-on-yellow: var(--pt-tint);
+	--bg-orange: color-mix(in srgb, var(--pt-tint) 12%, var(--pt-deep));
+	--text-on-orange: var(--pt-tint);
+	--bg-dark-gray: color-mix(in srgb, var(--pt-tint) 20%, var(--pt-deep));
+	--text-on-dark-gray: var(--pt-tint);
+	--bg-darkgrey: color-mix(in srgb, var(--pt-tint) 20%, var(--pt-deep));
+	--text-on-darkgrey: var(--pt-tint);
+
+	--alert-bg-warning: color-mix(in srgb, var(--pt-tint) 10%, var(--pt-deep));
+	--alert-bg-info: var(--pt-surface-sunken);
+	--appreciation-color: var(--pt-accent-soft);
+
+	--diff-added: var(--pt-selected);
+	--diff-removed: var(--pt-danger-bg);
+	--diff-changed: var(--pt-hover);
+	--scrollbar-thumb-color: color-mix(in srgb, var(--pt-tint) 22%, var(--pt-ink));
+	--scrollbar-track-color: var(--pt-ink);
+}

@@ -1,0 +1,95 @@
+// Base rules shared by desk and website pages. Only where a Frappe rule hard-codes a value
+// instead of reading a variable.
+
+body {
+	font-family: var(--pt-font);
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+	font-weight: 700;
+	color: var(--heading-color);
+}
+
+::selection {
+	background: color-mix(in srgb, var(--pt-accent) 28%, transparent);
+}
+
+// Focus: a visible ring on every control, keyboard only.
+:focus-visible {
+	outline: 2px solid var(--pt-accent);
+	outline-offset: 2px;
+}
+
+.form-control:focus,
+.form-control:focus-visible,
+.btn:focus-visible,
+.awesomplete input:focus {
+	outline: none;
+	box-shadow: var(--pt-focus-ring);
+}
+
+// Primary buttons: accent with white text (4.6:1).
+.btn.btn-primary {
+	color: var(--pt-on-accent);
+	font-weight: 600;
+
+	&:hover,
+	&:focus {
+		color: var(--pt-on-accent);
+		background-color: var(--pt-accent-hover);
+	}
+
+	// !important: Frappe's own .btn-primary:active sets both with !important; without this the
+	// pressed state flashes black.
+	&:active {
+		color: var(--pt-on-accent) !important;
+		background-color: var(--pt-accent-hover) !important;
+	}
+}
+
+.btn.btn-default,
+.btn.btn-secondary {
+	font-weight: 500;
+}
+
+.btn {
+	transition:
+		background-color var(--pt-duration) var(--pt-ease),
+		box-shadow var(--pt-duration) var(--pt-ease),
+		color var(--pt-duration) var(--pt-ease);
+}
+
+// Links in content: readable text, accent underline (accent is functional, not decoration).
+.ql-editor a,
+.frappe-control a:not(.btn):not([class*="link-"]),
+.timeline-content a:not(.btn),
+.page_content a:not(.btn):not([class]) {
+	color: var(--pt-link);
+	text-decoration: underline;
+	text-decoration-color: var(--pt-accent);
+	text-decoration-thickness: 1.5px;
+	text-underline-offset: 3px;
+}
+
+// Respect reduced motion for everything this theme animates.
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms;
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
+	}
+}

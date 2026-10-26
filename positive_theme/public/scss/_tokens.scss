@@ -1,0 +1,60 @@
+// Positive brand tokens.
+//
+// This is the ONLY file in positive_theme that holds raw colour values. Every other file uses
+// var(--pt-*) or color-mix() on these. positive_theme/utils.py reads this same file for print
+// and email, where CSS variables do not work, so the values live in one place.
+//
+// Colour set: indigo, from the Positive colour-set sheet (approved by the trainer in place of
+// the green set in the original task).
+
+// Registered so getComputedStyle() returns a resolved rgb() colour; the chart palette in
+// positive_theme.bundle.js reads these. The initial values are the light-theme palette.
+@property --pt-chart-1 { syntax: "<color>"; inherits: true; initial-value: #7361e5; }
+@property --pt-chart-2 { syntax: "<color>"; inherits: true; initial-value: #1d1a3a; }
+@property --pt-chart-3 { syntax: "<color>"; inherits: true; initial-value: #1d1a3a; }
+@property --pt-chart-4 { syntax: "<color>"; inherits: true; initial-value: #1d1a3a; }
+@property --pt-chart-5 { syntax: "<color>"; inherits: true; initial-value: #1d1a3a; }
+@property --pt-chart-6 { syntax: "<color>"; inherits: true; initial-value: #1d1a3a; }
+
+@layer pt.tokens {
+	:root {
+		// Brand palette
+		--pt-accent: #7361e5;
+		--pt-ink: #100e23;
+		--pt-deep: #1d1a3a;
+		--pt-tint: #f4f3fe;
+		--pt-white: #ffffff;
+		--pt-black: #000000;
+
+		// Error signal. Used only for errors, Overdue and Cancelled, so those stay recognisable.
+		// It is not a brand colour and never decorates.
+		--pt-signal: #b3261e;
+		--pt-signal-on-dark: #ff8a80;
+
+		// Accent steps that keep accent-coloured text above 4.5:1.
+		--pt-accent-strong: color-mix(in srgb, var(--pt-accent) 78%, var(--pt-black)); // on light
+		--pt-accent-soft: color-mix(in srgb, var(--pt-accent) 50%, var(--pt-white)); // on ink
+
+		// Type
+		--pt-font-latin: "Poppins";
+		--pt-font-arabic: "Tajawal";
+		--pt-font: "Poppins", "Tajawal", "Poppins Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+		--pt-font-rtl: "Tajawal", "Poppins", "Poppins Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+		// Shape
+		--pt-radius-sm: 8px;
+		--pt-radius: 10px;
+		--pt-radius-md: 12px;
+		--pt-radius-lg: 16px;
+		--pt-radius-xl: 20px;
+
+		// Motion: short and purposeful (150-250 ms)
+		--pt-duration: 180ms;
+		--pt-duration-slow: 240ms;
+		--pt-ease: cubic-bezier(0.2, 0, 0, 1);
+
+		// Layout
+		--pt-navbar-height: 56px;
+		--pt-sidebar-width: 248px;
+	}
+}

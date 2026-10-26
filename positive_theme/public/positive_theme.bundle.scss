@@ -1,0 +1,13 @@
+// Positive theme for ERPNext.
+// Injected into desk (app_include_css) and website pages (web_include_css) by hooks.py.
+//
+// Layer order for the theme's own rules: tokens, then per-theme semantic tokens, then new
+// pt-* components. Overrides of Frappe's rules are deliberately unlayered (see _frappe.scss):
+// Frappe's CSS is unlayered and would beat anything inside a layer.
+@layer pt.tokens, pt.theme, pt.components;
+
+@import "./scss/tokens";
+@import "./scss/fonts";
+@import "./scss/theme";
+@import "./scss/frappe";
+@import "./scss/base";
