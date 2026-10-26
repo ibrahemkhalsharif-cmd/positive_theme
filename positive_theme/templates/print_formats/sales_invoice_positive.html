@@ -26,6 +26,11 @@
 		font-weight: 700;
 		color: {{ t.deep }};
 	}
+	/* Each value takes its direction from its own text, so English names and numbers keep their
+	   punctuation and order inside the Arabic layout. */
+	.pt-print td,
+	.pt-print td div,
+	.pt-print .pt-label { unicode-bidi: plaintext; }
 	.pt-print .pt-muted { color: {{ t.deep }}; opacity: 0.72; }
 	.pt-print .pt-label {
 		font-size: 7.5pt;
@@ -79,30 +84,30 @@
 	<table class="pt-meta">
 		<tr>
 			<td class="pt-start" style="width: 55%;">
-				<h1>{{ _("Tax Invoice") if doc.taxes else _("Sales Invoice") }}</h1>
+				<h1>{{ _("Tax Invoice", context="Positive print") if doc.taxes else _("Sales Invoice", context="Positive print") }}</h1>
 				<div class="pt-muted">{{ doc.name }}</div>
 			</td>
 			<td class="pt-end">
-				<div class="pt-label">{{ _("Date") }}</div>
+				<div class="pt-label">{{ _("Date", context="Positive print") }}</div>
 				<div>{{ doc.get_formatted("posting_date") }}</div>
 				{% if doc.due_date %}
-				<div class="pt-label" style="margin-top: 6px;">{{ _("Due date") }}</div>
+				<div class="pt-label" style="margin-top: 6px;">{{ _("Due date", context="Positive print") }}</div>
 				<div>{{ doc.get_formatted("due_date") }}</div>
 				{% endif %}
 			</td>
 		</tr>
 		<tr>
 			<td class="pt-start">
-				<div class="pt-label">{{ _("Bill to") }}</div>
+				<div class="pt-label">{{ _("Bill to", context="Positive print") }}</div>
 				<div style="font-weight: 600;">{{ doc.customer_name or doc.customer }}</div>
 				{% if doc.address_display %}<div class="pt-muted">{{ doc.address_display }}</div>{% endif %}
-				{% if doc.tax_id %}<div class="pt-muted">{{ _("Tax ID") }}: {{ doc.tax_id }}</div>{% endif %}
+				{% if doc.tax_id %}<div class="pt-muted">{{ _("Tax ID", context="Positive print") }}: {{ doc.tax_id }}</div>{% endif %}
 			</td>
 			<td class="pt-end">
-				<div class="pt-label">{{ _("From") }}</div>
+				<div class="pt-label">{{ _("From", context="Positive print") }}</div>
 				<div style="font-weight: 600;">{{ doc.company }}</div>
-				{% if doc.company_tax_id %}<div class="pt-muted">{{ _("Tax ID") }}: {{ doc.company_tax_id }}</div>{% endif %}
-				{% if doc.po_no %}<div class="pt-muted">{{ _("Customer PO") }}: {{ doc.po_no }}</div>{% endif %}
+				{% if doc.company_tax_id %}<div class="pt-muted">{{ _("Tax ID", context="Positive print") }}: {{ doc.company_tax_id }}</div>{% endif %}
+				{% if doc.po_no %}<div class="pt-muted">{{ _("Customer PO", context="Positive print") }}: {{ doc.po_no }}</div>{% endif %}
 			</td>
 		</tr>
 	</table>
@@ -111,10 +116,10 @@
 		<thead>
 			<tr>
 				<th class="pt-start" style="width: 5%;">#</th>
-				<th class="pt-start">{{ _("Item") }}</th>
-				<th class="pt-end" style="width: 12%;">{{ _("Quantity") }}</th>
-				<th class="pt-end" style="width: 17%;">{{ _("Rate") }}</th>
-				<th class="pt-end" style="width: 18%;">{{ _("Amount") }}</th>
+				<th class="pt-start">{{ _("Item", context="Positive print") }}</th>
+				<th class="pt-end" style="width: 12%;">{{ _("Quantity", context="Positive print") }}</th>
+				<th class="pt-end" style="width: 17%;">{{ _("Rate", context="Positive print") }}</th>
+				<th class="pt-end" style="width: 18%;">{{ _("Amount", context="Positive print") }}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -137,14 +142,14 @@
 		<tr>
 			<td style="width: 52%; vertical-align: top;" class="pt-start">
 				{% if doc.in_words %}
-				<div class="pt-label">{{ _("Amount in words") }}</div>
+				<div class="pt-label">{{ _("Amount in words", context="Positive print") }}</div>
 				<div>{{ doc.in_words }}</div>
 				{% endif %}
 			</td>
 			<td style="vertical-align: top;">
 				<table class="pt-totals">
 					<tr>
-						<td class="pt-start pt-muted">{{ _("Net total") }}</td>
+						<td class="pt-start pt-muted">{{ _("Net total", context="Positive print") }}</td>
 						<td class="pt-end pt-num">{{ doc.get_formatted("net_total") }}</td>
 					</tr>
 					{% for tax in doc.taxes %}
@@ -157,12 +162,12 @@
 					{% endfor %}
 					{% if doc.discount_amount %}
 					<tr>
-						<td class="pt-start pt-muted">{{ _("Discount") }}</td>
+						<td class="pt-start pt-muted">{{ _("Discount", context="Positive print") }}</td>
 						<td class="pt-end pt-num">-{{ doc.get_formatted("discount_amount") }}</td>
 					</tr>
 					{% endif %}
 					<tr class="pt-grand">
-						<td class="pt-start">{{ _("Grand total") }}</td>
+						<td class="pt-start">{{ _("Grand total", context="Positive print") }}</td>
 						<td class="pt-end pt-num">{{ doc.get_formatted("grand_total") }}</td>
 					</tr>
 				</table>
@@ -172,7 +177,7 @@
 
 	{% if doc.terms %}
 	<div class="pt-box" style="margin-top: 18px;">
-		<div class="pt-label">{{ _("Terms and conditions") }}</div>
+		<div class="pt-label">{{ _("Terms and conditions", context="Positive print") }}</div>
 		<div>{{ doc.terms }}</div>
 	</div>
 	{% endif %}

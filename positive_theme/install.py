@@ -65,20 +65,16 @@ def remove_letter_head():
 
 
 def letter_head_html() -> str:
-	# Tables rather than flexbox: wkhtmltopdf's engine predates flexbox.
+	# A float rather than flexbox (wkhtmltopdf predates flexbox) and no table: Frappe's print styles
+	# force "td img { width: 100% !important }", which would stretch the logo out of proportion.
 	t = brand_tokens()
 	return f"""
-<table style="width: 100%; border-collapse: collapse; border-bottom: 2px solid {t.accent};">
-	<tr>
-		<td style="padding: 0 0 10px; vertical-align: middle;">
-			<img src="{t.logo_data_uri}" alt="Positive" style="height: 52px; width: auto;">
-		</td>
-		<td style="padding: 0 0 10px; vertical-align: middle; text-align: right;
-			font-family: Poppins, Tajawal, sans-serif; font-size: 11px; color: {t.deep};">
-			Simply Smarter
-		</td>
-	</tr>
-</table>
+<div style="overflow: hidden; padding-bottom: 10px; border-bottom: 2px solid {t.accent};" dir="ltr">
+	<div style="float: right; padding-top: 18px; font-family: Poppins, Tajawal, sans-serif;
+		font-size: 11px; color: {t.deep};">Simply Smarter</div>
+	<img src="{t.logo_data_uri}" alt="Positive" width="159" height="52"
+		style="display: block; width: 159px; height: 52px;">
+</div>
 """
 
 

@@ -29,3 +29,20 @@
 "Sign up","إنشاء حساب",
 "Signups have been disabled for this website.","تم إيقاف إنشاء الحسابات في هذا الموقع.",
 "Verifying...","جارٍ التحقق...",
+"Tax Invoice","فاتورة ضريبية","Positive print"
+"Sales Invoice","فاتورة مبيعات","Positive print"
+"Date","التاريخ","Positive print"
+"Due date","تاريخ الاستحقاق","Positive print"
+"Bill to","فاتورة إلى","Positive print"
+"From","من","Positive print"
+"Tax ID","الرقم الضريبي","Positive print"
+"Customer PO","أمر شراء العميل","Positive print"
+"Item","الصنف","Positive print"
+"Quantity","الكمية","Positive print"
+"Rate","السعر","Positive print"
+"Amount","المبلغ","Positive print"
+"Amount in words","المبلغ كتابةً","Positive print"
+"Net total","الإجمالي الصافي","Positive print"
+"Discount","الخصم","Positive print"
+"Grand total","الإجمالي الكلي","Positive print"
+"Terms and conditions","الشروط والأحكام","Positive print"
