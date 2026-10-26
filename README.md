@@ -5,6 +5,11 @@ sidebar, workspaces), list views, forms, reports, print and email. Everything is
 `hooks.py`; nothing in `frappe`, `erpnext` or `hrms` is changed, and uninstalling the app returns
 the site to stock.
 
+### Design (P1)
+
+The approved design (login, desk home, list and form, in light and dark, plus the Arabic login)
+is in Claude Design: https://claude.ai/artifact/3dVgWQXVhc7htyUnsFU9LK
+
 ### What it does
 
 | Area | Where |
