@@ -43,4 +43,10 @@ The indigo design looks good. I'll get trainer approval, then build it.
 Alright the trainer approved it go ahead and start
 ```
 
+## 6. Desk check
+
+```
+I'm signed in at http://localhost in the browser pane. Check the desk screens, fix what breaks, and finish P7 (dark mode and Arabic).
+```
+
 <!-- Add every further prompt below, copied exactly. -->
