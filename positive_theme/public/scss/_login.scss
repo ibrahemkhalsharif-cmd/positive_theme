@@ -1,0 +1,545 @@
+// P3: login page (www/login.html in this app).
+// Unlayered because it restyles Frappe/Bootstrap classes the page must keep (.btn, .form-control,
+// .page-card) and website.bundle.css styles those unlayered.
+
+// The login page follows the operating system's dark setting.
+@media (prefers-color-scheme: dark) {
+	@layer pt.theme {
+		.pt-login-body {
+			@include pt-dark-semantic;
+		}
+	}
+}
+
+.pt-login-body {
+	background: var(--pt-surface-page);
+	color: var(--pt-text);
+}
+
+.pt-login {
+	container: pt-login / inline-size;
+	min-height: 100vh;
+	min-height: 100dvh;
+	display: flex;
+	flex-wrap: wrap;
+	font-family: var(--pt-font);
+	color: var(--pt-text);
+	background: var(--pt-surface-page);
+
+	&[dir="rtl"] {
+		font-family: var(--pt-font-rtl);
+	}
+}
+
+// Brand panel ------------------------------------------------------------------------------
+
+.pt-login__brand {
+	flex: 1 1 440px;
+	min-height: 420px;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 32px;
+	padding: 48px 56px;
+	box-sizing: border-box;
+	background: var(--pt-ink);
+	color: var(--pt-tint);
+	border-inline-end: 1px solid var(--pt-shell-edge);
+}
+
+// The square module of the mark, scattered at low opacity and at a larger scale than the logo's
+// own module (about 10 px in the 140 px lockup).
+.pt-login__pattern {
+	position: absolute;
+	inset: 0;
+
+	span {
+		position: absolute;
+		inline-size: var(--s);
+		block-size: var(--s);
+		inset-block-start: var(--y);
+		inset-inline-start: var(--x);
+		background: color-mix(in srgb, var(--pt-tint) 5%, transparent);
+		border-radius: var(--r);
+	}
+
+	$modules: (
+		(62%, 8%, 64px, 0 14px 0 0),
+		(84%, 18%, 36px, 0 0 8px 0),
+		(72%, 30%, 48px, 0 0 0 10px),
+		(90%, 46%, 72px, 14px 0 0 0),
+		(66%, 60%, 40px, 0 9px 0 0),
+		(82%, 74%, 56px, 0 0 12px 0),
+		(58%, 86%, 32px, 0 0 0 7px),
+		(40%, 12%, 28px, 6px 0 0 0),
+		(44%, 66%, 24px, 0 0 5px 0),
+		(30%, 84%, 44px, 0 10px 0 0),
+		(8%, 4%, 30px, 0 0 0 7px),
+		(6%, 92%, 52px, 12px 0 0 0),
+		(52%, 38%, 20px, 0 4px 0 0),
+		(76%, 54%, 26px, 0 0 0 6px)
+	);
+	@for $i from 1 through length($modules) {
+		$m: nth($modules, $i);
+		span:nth-child(#{$i}) {
+			--x: #{nth($m, 1)};
+			--y: #{nth($m, 2)};
+			--s: #{nth($m, 3)};
+			--r: #{nth($m, 4)};
+		}
+	}
+}
+
+.pt-login__logo,
+.pt-login__lockup,
+.pt-login__foot {
+	position: relative;
+}
+
+.pt-login__logo {
+	align-self: flex-start;
+	border-radius: var(--pt-radius-sm);
+
+	img {
+		display: block;
+		inline-size: 140px;
+		block-size: auto;
+	}
+}
+
+// Large lockup with the slogan set under the wordmark. Container units keep the slogan aligned
+// to the wordmark at any width: the wordmark starts 27% in and ends 69% down the lockup.
+.pt-login__lockup {
+	container-type: inline-size;
+	inline-size: min(400px, 100%);
+	align-self: flex-start;
+
+	img {
+		display: block;
+		inline-size: 100%;
+		block-size: auto;
+	}
+}
+
+// Logical margins on purpose: the lockup is dir="ltr" in both languages, and Frappe's RTL build
+// (rtlcss) would flip a physical margin-left in the Arabic bundle.
+.pt-login__slogan {
+	// Positioned so it paints above the lockup image, which website CSS makes position: relative.
+	position: relative;
+	margin-block: -9cqi 0;
+	margin-inline: 26.9cqi 0;
+	font-size: 6.5cqi;
+	line-height: 1.3;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	color: var(--pt-tint);
+}
+
+.pt-login__foot {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	font-size: 13px;
+	color: var(--pt-shell-muted);
+}
+
+// Sign-in side ------------------------------------------------------------------------------
+
+.pt-login__main {
+	flex: 1 1 500px;
+	min-inline-size: 0;
+	display: flex;
+	flex-direction: column;
+	padding: 32px 40px 40px;
+	box-sizing: border-box;
+}
+
+.pt-login__top {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.pt-login__lang {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-block-size: 44px;
+	padding-inline: 16px;
+	border-radius: 999px;
+	border: 1px solid var(--pt-border-strong);
+	color: var(--pt-text);
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	transition: background-color var(--pt-duration) var(--pt-ease);
+
+	&:hover {
+		color: var(--pt-text);
+		text-decoration: none;
+		background: var(--pt-hover);
+	}
+}
+
+.pt-login__center {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-block: 24px;
+
+	// login.js shows one section at a time; only the sign-in section is visible before it runs.
+	> section:not(.for-login) {
+		display: none;
+	}
+
+	> section {
+		inline-size: 100%;
+		max-inline-size: 420px;
+	}
+}
+
+.pt-card {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 40px;
+	border-radius: var(--pt-radius-xl);
+	background: var(--pt-surface-card);
+	border: 1px solid var(--pt-border);
+	box-shadow: var(--pt-shadow-pop);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.pt-card {
+		animation: pt-rise var(--pt-duration-slow) var(--pt-ease) both;
+	}
+}
+
+@keyframes pt-rise {
+	from {
+		opacity: 0;
+		translate: 0 8px;
+	}
+}
+
+.pt-card__head {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.pt-card__title {
+	margin: 0;
+	font-size: 28px;
+	line-height: 1.25;
+	font-weight: 700;
+	color: var(--pt-text);
+}
+
+.pt-card__subtitle {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.5;
+	color: var(--pt-text-muted);
+}
+
+.pt-card .page-card-body,
+.pt-card .page-card-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 0;
+}
+
+.pt-card .page-card-actions {
+	margin-block-start: 20px;
+	gap: 12px;
+}
+
+.pt-field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 0;
+}
+
+.pt-field__row {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 12px;
+}
+
+.pt-login .pt-field__label {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--pt-text);
+}
+
+.pt-login .pt-input {
+	block-size: 48px;
+	padding-inline: 16px;
+	border-radius: var(--pt-radius-md);
+	border: 1px solid var(--pt-border-input);
+	background: var(--pt-surface-card);
+	color: var(--pt-text);
+	font-size: 15px;
+	transition:
+		border-color var(--pt-duration) var(--pt-ease),
+		box-shadow var(--pt-duration) var(--pt-ease);
+
+	&::placeholder {
+		color: var(--pt-text-subtle);
+	}
+
+	&:focus {
+		background: var(--pt-surface-card);
+		border-color: var(--pt-accent);
+		box-shadow: var(--pt-focus-ring);
+	}
+
+	// Inputs are dir="ltr" (emails, passwords); keep their text on the reading side in Arabic.
+	.pt-login[dir="rtl"] & {
+		text-align: end;
+	}
+}
+
+.pt-password {
+	position: relative;
+	display: flex;
+
+	.pt-input {
+		flex: 1;
+		min-inline-size: 0;
+		padding-inline-end: 92px;
+	}
+
+	// The input is dir="ltr", so place the toggle by the input's own end in both directions.
+	.pt-login[dir="rtl"] & .pt-input {
+		padding-inline: 92px 16px;
+	}
+}
+
+.pt-password__toggle {
+	position: absolute;
+	inset-block-start: 4px;
+	inset-inline-end: 4px;
+	block-size: 40px;
+	min-inline-size: 80px;
+	padding-inline: 12px;
+	border: 0;
+	border-radius: var(--pt-radius-sm);
+	background: transparent;
+	color: var(--pt-text);
+	font: inherit;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background-color var(--pt-duration) var(--pt-ease);
+
+	&:hover {
+		background: var(--pt-hover);
+	}
+}
+
+.pt-link {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--pt-link);
+	text-decoration: underline;
+	text-decoration-color: var(--pt-accent);
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
+
+	&:hover {
+		color: var(--pt-link);
+		text-decoration-color: currentColor;
+	}
+}
+
+// Buttons
+.pt-login .pt-btn {
+	block-size: 48px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin: 0;
+	border-radius: var(--pt-radius-md);
+	font-size: 15px;
+	font-weight: 600;
+	text-decoration: none;
+
+	&.btn-primary {
+		border: 0;
+		background: var(--pt-accent);
+		color: var(--pt-on-accent);
+
+		&:hover {
+			background: var(--pt-accent-hover);
+		}
+	}
+}
+
+.pt-login .pt-btn--secondary {
+	border: 1px solid var(--pt-border-input);
+	background: transparent;
+	color: var(--pt-text);
+	font-weight: 500;
+
+	&:hover {
+		color: var(--pt-text);
+		background: var(--pt-hover);
+	}
+}
+
+.pt-login .pt-btn--ghost {
+	block-size: 44px;
+	border: 0;
+	background: transparent;
+	color: var(--pt-text);
+	font-size: 14px;
+	font-weight: 500;
+
+	&:hover {
+		color: var(--pt-text);
+		background: var(--pt-hover);
+	}
+}
+
+// Loading: positive_theme.bundle.js sets aria-busy on submit and clears it when the request ends.
+.pt-login .pt-btn[aria-busy="true"] {
+	opacity: 0.85;
+	pointer-events: none;
+
+	&::before {
+		content: "";
+		inline-size: 18px;
+		block-size: 18px;
+		border-radius: 50%;
+		border: 2.5px solid color-mix(in srgb, var(--pt-on-accent) 35%, transparent);
+		border-block-start-color: var(--pt-on-accent);
+		box-sizing: border-box;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.pt-login .pt-btn[aria-busy="true"]::before {
+		animation: pt-spin 700ms linear infinite;
+	}
+}
+
+@keyframes pt-spin {
+	to {
+		rotate: 1turn;
+	}
+}
+
+// Divider and other sign-in options
+.pt-other {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.pt-divider {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 0 0 4px;
+	font-size: 13px;
+	color: var(--pt-text-muted);
+
+	&::before,
+	&::after {
+		content: "";
+		flex: 1;
+		block-size: 1px;
+		background: var(--pt-border);
+	}
+}
+
+.pt-note {
+	margin: 20px 0 0;
+	font-size: 13px;
+	text-align: center;
+	color: var(--pt-text-muted);
+}
+
+// Error state: login.js adds .invalid to the visible .page-card-body when sign-in fails.
+.pt-alert {
+	display: none;
+	gap: 12px;
+	align-items: flex-start;
+	padding: 12px 14px;
+	border-radius: var(--pt-radius-md);
+	background: var(--pt-danger-bg);
+	border: 1px solid var(--pt-danger-border);
+	color: var(--pt-text);
+}
+
+.pt-alert__icon {
+	flex: none;
+	margin-block-start: 1px;
+	color: var(--pt-danger);
+}
+
+.pt-alert__text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	font-size: 14px;
+	line-height: 1.45;
+
+	strong {
+		font-weight: 600;
+		color: var(--pt-danger);
+	}
+}
+
+.page-card-body.invalid {
+	.pt-alert {
+		display: flex;
+	}
+
+	#login_password {
+		border-color: var(--pt-danger);
+	}
+}
+
+// Once the two columns stack (below 940 px), the brand panel becomes a compact header.
+@container pt-login (max-width: 939px) {
+	.pt-login__brand {
+		flex-basis: 100%;
+		min-height: 0;
+		padding: 24px;
+		gap: 16px;
+		border-inline-end: 0;
+	}
+
+	.pt-login__logo,
+	.pt-login__foot {
+		display: none;
+	}
+
+	.pt-login__lockup {
+		inline-size: min(260px, 100%);
+	}
+
+	.pt-login__main {
+		padding: 16px 16px 32px;
+	}
+
+	.pt-card {
+		padding: 28px 20px;
+	}
+
+	.pt-card__title {
+		font-size: 24px;
+	}
+}

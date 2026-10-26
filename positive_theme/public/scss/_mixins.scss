@@ -1,0 +1,44 @@
+// Dark semantic tokens, shared by the desk's data-theme="dark" and the login page, which follows
+// the operating system setting because website pages have no theme switch.
+@mixin pt-dark-semantic {
+	--pt-surface-page: var(--pt-ink);
+	--pt-surface-card: var(--pt-deep);
+	--pt-surface-raised: color-mix(in srgb, var(--pt-tint) 6%, var(--pt-deep));
+	--pt-surface-shell: var(--pt-ink);
+	--pt-surface-sunken: color-mix(in srgb, var(--pt-tint) 4%, var(--pt-ink));
+	--pt-surface-key: var(--pt-deep);
+
+	// Text: tint on ink
+	--pt-text: var(--pt-tint);
+	--pt-text-muted: color-mix(in srgb, var(--pt-tint) 68%, var(--pt-ink));
+	--pt-text-subtle: color-mix(in srgb, var(--pt-tint) 58%, var(--pt-ink));
+	--pt-link: var(--pt-accent-soft);
+	--pt-on-accent: var(--pt-white);
+	--pt-key-number: var(--pt-accent-soft);
+
+	// Lines: accent at 15-20% on dark
+	--pt-border: color-mix(in srgb, var(--pt-accent) 18%, transparent);
+	--pt-border-strong: color-mix(in srgb, var(--pt-accent) 30%, transparent);
+	--pt-border-input: color-mix(in srgb, var(--pt-accent) 34%, transparent);
+
+	--pt-hover: color-mix(in srgb, var(--pt-tint) 6%, transparent);
+	--pt-pressed: color-mix(in srgb, var(--pt-tint) 10%, transparent);
+	--pt-selected: color-mix(in srgb, var(--pt-accent) 22%, transparent);
+	--pt-accent-hover: color-mix(in srgb, var(--pt-accent) 85%, var(--pt-white));
+	--pt-focus-ring: 0 0 0 2px var(--pt-deep), 0 0 0 4px var(--pt-accent-soft);
+	--pt-shadow-card: none;
+	--pt-shadow-pop: 0 16px 40px -16px color-mix(in srgb, var(--pt-black) 70%, transparent);
+
+	--pt-danger: var(--pt-signal-on-dark);
+	--pt-danger-bg: color-mix(in srgb, var(--pt-signal-on-dark) 14%, var(--pt-deep));
+	--pt-danger-border: color-mix(in srgb, var(--pt-signal-on-dark) 45%, transparent);
+
+	--pt-chart-1: var(--pt-accent-soft);
+	--pt-chart-2: color-mix(in srgb, var(--pt-tint) 72%, var(--pt-ink));
+	--pt-chart-3: color-mix(in srgb, var(--pt-tint) 52%, var(--pt-ink));
+	--pt-chart-4: color-mix(in srgb, var(--pt-tint) 36%, var(--pt-ink));
+	--pt-chart-5: color-mix(in srgb, var(--pt-tint) 24%, var(--pt-ink));
+	--pt-chart-6: color-mix(in srgb, var(--pt-tint) 15%, var(--pt-ink));
+
+	--pt-shell-edge: color-mix(in srgb, var(--pt-accent) 16%, transparent);
+}

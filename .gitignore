@@ -5,3 +5,5 @@
 tags
 node_modules
 __pycache__
+# Built by bench build
+positive_theme/public/dist/
