@@ -20,6 +20,20 @@
 	outline-offset: -1px;
 }
 
+// Frappe paints Draft red for some doctypes, which would make it look like Overdue. A draft is
+// always the hollow, dashed style.
+.indicator-pill.red:is([data-filter="docstatus,=,0"], [data-filter="status,=,Draft"]),
+[data-pt-docstatus="0"] .page-head .indicator-pill.red {
+	background: var(--bg-gray);
+	color: var(--text-on-gray);
+	outline: 1px dashed color-mix(in srgb, var(--pt-text-muted) 70%, transparent);
+	outline-offset: -1px;
+
+	&::before {
+		background: var(--text-on-gray);
+	}
+}
+
 // Cancelled shares Frappe's red with Overdue. In lists the pill carries its filter; in the form
 // header positive_theme.bundle.js marks the page with the document's docstatus.
 .indicator-pill.red:is([data-filter="docstatus,=,2"], [data-filter="status,=,Cancelled"]),

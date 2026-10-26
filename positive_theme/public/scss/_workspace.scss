@@ -22,6 +22,20 @@ body[data-route] .widget {
 	}
 }
 
+// Workspaces put their widgets straight on the page surface, not inside one more card.
+body[data-route^="Workspaces"] .layout-main-section {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+}
+
+// Spacer blocks only make room; they are not cards.
+body[data-route] .widget.spacer {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+}
+
 // Workspace headings
 body[data-route] .ce-header,
 body[data-route] .workspace-title {
@@ -31,11 +45,17 @@ body[data-route] .workspace-title {
 
 // Shortcuts: a quiet tile with a deep icon; the count pill stays neutral.
 body[data-route] .shortcut-widget-box {
+	min-block-size: 52px;
+	justify-content: center;
+	padding-inline: 16px;
+
 	.widget-title {
 		gap: 10px;
 	}
 
+	// A count, not a status: no Draft outline.
 	.indicator-pill {
+		outline: none;
 		background: var(--pt-hover);
 		color: var(--pt-text);
 

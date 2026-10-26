@@ -1,6 +1,6 @@
 // P4: desk shell. Navbar and navigation sidebar are ink in both themes; the content area uses
-// the page surface. Desk pages carry body[data-route]; website pages do not, so these rules
-// never touch the website navbar.
+// the page surface. Desk pages carry body[data-route] and the desk navbar is a <header>
+// (the website navbar is a <nav>), so these rules never touch website pages.
 
 // Variables that put Frappe's own components on an ink surface, and back on a light one for
 // menus that open from it.
@@ -37,7 +37,6 @@
 }
 
 body[data-route] {
-	--navbar-bg: var(--pt-surface-shell);
 	background: var(--pt-surface-page);
 }
 
@@ -47,8 +46,9 @@ body[data-route] {
 
 // Navbar ------------------------------------------------------------------------------------
 
-body[data-route] .navbar {
+header.navbar {
 	@include pt-on-shell;
+	--navbar-bg: var(--pt-surface-shell);
 	block-size: var(--pt-navbar-height);
 	background: var(--pt-surface-shell);
 	border-block-end: 1px solid var(--pt-shell-edge);
@@ -76,6 +76,17 @@ body[data-route] .navbar {
 	}
 
 	#navbar-breadcrumbs {
+		min-inline-size: 0;
+		flex-shrink: 1;
+		overflow: hidden;
+
+		li {
+			min-inline-size: 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
 		a,
 		li {
 			color: var(--pt-shell-muted);
@@ -100,7 +111,7 @@ body[data-route] .navbar {
 
 		.form-control {
 			block-size: 40px;
-			padding-inline-start: 40px;
+			padding-inline-start: 48px;
 			border-radius: var(--pt-radius-md);
 			border: 1px solid var(--pt-shell-border);
 			background: var(--pt-shell-field);
@@ -140,7 +151,7 @@ body[data-route] .navbar {
 
 // Below tablet width there is no room for the lockup: the icon only (brand rule: under 90 px).
 @media (max-width: 767.98px) {
-	body[data-route] .navbar .navbar-brand .app-logo {
+	header.navbar .navbar-brand .app-logo {
 		content: url("/assets/positive_theme/images/positive-icon-indigo-dark.svg");
 		inline-size: 32px;
 		block-size: 32px;
@@ -166,10 +177,16 @@ body[data-route] .page-head {
 }
 
 // Navigation sidebar: an ink panel ----------------------------------------------------------
+// Workspaces and list views both wrap their sidebar in .list-sidebar; the form sidebar is a
+// different element and stays on the page surface.
 
-body[data-route] :is(.desk-sidebar, .list-sidebar) {
+body[data-route] .layout-side-section > .list-sidebar {
 	@include pt-on-shell;
 	padding: 12px;
+	max-block-size: calc(100vh - var(--navbar-height) - var(--page-head-height) - 24px);
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: var(--pt-shell-border) transparent;
 	border-radius: var(--pt-radius-lg);
 	background: var(--pt-surface-shell);
 	border: 1px solid var(--pt-shell-edge);
@@ -270,6 +287,13 @@ body[data-route] .standard-sidebar-item {
 	body[data-route] .overlay-sidebar.opened {
 		background: var(--pt-surface-shell);
 	}
+}
+
+// RTL: directional icons that Frappe does not mirror itself ("open" arrows on shortcuts and
+// link cards) are flipped so they point toward the reading direction.
+[dir="rtl"] svg:has(use[href*="arrow-up-right"]),
+[dir="rtl"] svg:has(use[href*="es-line-arrow-right"]) {
+	scale: -1 1;
 }
 
 // Content cards share one shape --------------------------------------------------------------

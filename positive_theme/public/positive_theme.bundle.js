@@ -19,11 +19,17 @@ function brand_chart_palette() {
 	return palette;
 }
 
+// Browsers report registered colours as rgb(0-255 ...) or, for color-mix() results,
+// color(srgb 0-1 ...). frappe-charts needs #rrggbb.
 function rgb_to_hex(value) {
 	if (/^#[0-9a-f]{6}$/i.test(value)) return value;
-	const match = value.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-	if (!match) return null;
-	return "#" + match.slice(1, 4).map((n) => Number(n).toString(16).padStart(2, "0")).join("");
+	let channels;
+	const rgb = value.match(/^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/i);
+	const srgb = value.match(/^color\(\s*srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/i);
+	if (rgb) channels = rgb.slice(1, 4).map(Number);
+	else if (srgb) channels = srgb.slice(1, 4).map((n) => Number(n) * 255);
+	else return null;
+	return "#" + channels.map((n) => Math.round(n).toString(16).padStart(2, "0")).join("");
 }
 
 function with_brand_colors(options = {}) {

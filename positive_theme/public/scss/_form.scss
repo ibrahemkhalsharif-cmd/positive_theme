@@ -62,7 +62,43 @@ body[data-route] {
 		border-color: var(--pt-danger);
 	}
 
-	// Child tables
+	// Form messages ("Submit this document to confirm" and others). Frappe colours them from its
+	// own blue/green/yellow/red scales; map them to the theme. [data-theme] is repeated so this
+	// also beats Frappe's [data-theme="dark"] .form-message rules.
+	&,
+	[data-theme] & {
+		.form-message {
+			&.blue,
+			&.green,
+			&.gray {
+				background: var(--pt-selected);
+				color: var(--pt-text);
+			}
+
+			&.yellow,
+			&.orange {
+				background: color-mix(in srgb, var(--pt-text) 8%, transparent);
+				color: var(--pt-text);
+			}
+
+			&.red {
+				background: var(--pt-danger-bg);
+				color: var(--pt-danger);
+			}
+
+			--icon-stroke: currentColor;
+		}
+	}
+
+	// Child tables. Frappe's breakpoints overlap at exactly 768 px: (max-width: 768px) gives the
+	// table a 738 px minimum width and (min-width: 768px) stops clipping it, so the page scrolls
+	// sideways. Drop the minimum width at that one width.
+	@media (width: 768px) {
+		.form-grid-container .form-grid {
+			min-inline-size: 0;
+		}
+	}
+
 	.form-grid {
 		border: 1px solid var(--pt-border);
 		border-radius: var(--pt-radius-md);
