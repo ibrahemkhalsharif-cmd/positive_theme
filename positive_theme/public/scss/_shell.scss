@@ -1,0 +1,288 @@
+// P4: desk shell. Navbar and navigation sidebar are ink in both themes; the content area uses
+// the page surface. Desk pages carry body[data-route]; website pages do not, so these rules
+// never touch the website navbar.
+
+// Variables that put Frappe's own components on an ink surface, and back on a light one for
+// menus that open from it.
+@mixin pt-on-shell {
+	--text-color: var(--pt-shell-text);
+	--text-muted: var(--pt-shell-muted);
+	--text-light: var(--pt-shell-muted);
+	--heading-color: var(--pt-shell-text);
+	--icon-stroke: var(--pt-shell-muted);
+	--border-color: var(--pt-shell-border);
+	--control-bg: var(--pt-shell-field);
+	--awesomebar-focus-bg: var(--pt-shell-field);
+	--btn-default-bg: var(--pt-shell-field);
+	--btn-default-hover-bg: var(--pt-shell-hover);
+	--fg-hover-color: var(--pt-shell-hover);
+	--sidebar-select-color: var(--pt-shell-hover);
+	--bg-color: var(--pt-surface-shell);
+	color: var(--pt-shell-text);
+}
+
+@mixin pt-on-surface {
+	--text-color: var(--pt-text);
+	--text-muted: var(--pt-text-muted);
+	--text-light: var(--pt-text-subtle);
+	--heading-color: var(--pt-text);
+	--icon-stroke: var(--pt-text);
+	--border-color: var(--pt-border);
+	--control-bg: var(--pt-surface-sunken);
+	--btn-default-bg: var(--pt-surface-sunken);
+	--btn-default-hover-bg: var(--pt-pressed);
+	--fg-hover-color: var(--pt-hover);
+	--bg-color: var(--pt-surface-page);
+	color: var(--pt-text);
+}
+
+body[data-route] {
+	--navbar-bg: var(--pt-surface-shell);
+	background: var(--pt-surface-page);
+}
+
+[dir="rtl"] {
+	--pt-dir: -1;
+}
+
+// Navbar ------------------------------------------------------------------------------------
+
+body[data-route] .navbar {
+	@include pt-on-shell;
+	block-size: var(--pt-navbar-height);
+	background: var(--pt-surface-shell);
+	border-block-end: 1px solid var(--pt-shell-edge);
+
+	--icon-stroke: var(--pt-shell-text);
+
+	:is(.dropdown-menu, .awesomplete > ul, .notifications-list) {
+		@include pt-on-surface;
+	}
+
+	.navbar-brand {
+		display: inline-flex;
+		align-items: center;
+		margin-inline-end: 16px;
+		padding: 0;
+		border-radius: var(--pt-radius-sm);
+	}
+
+	// Horizontal lockup, 148 px wide. The SVG already includes one module of clear space.
+	.navbar-brand .app-logo {
+		inline-size: auto;
+		block-size: 48px;
+		max-inline-size: none;
+		max-block-size: none;
+	}
+
+	#navbar-breadcrumbs {
+		a,
+		li {
+			color: var(--pt-shell-muted);
+			font-weight: 500;
+		}
+
+		li:last-child a {
+			color: var(--pt-shell-text);
+		}
+	}
+
+	// Search is the main entry point: wide, at the start of the bar, clearly a field.
+	.navbar-collapse form {
+		justify-content: flex-start;
+	}
+
+	.search-bar {
+		flex: 1 1 auto;
+		inline-size: 100%;
+		max-inline-size: 560px;
+		margin-inline: 16px auto;
+
+		.form-control {
+			block-size: 40px;
+			padding-inline-start: 40px;
+			border-radius: var(--pt-radius-md);
+			border: 1px solid var(--pt-shell-border);
+			background: var(--pt-shell-field);
+			color: var(--pt-shell-text);
+			font-size: 14px;
+			transition:
+				background-color var(--pt-duration) var(--pt-ease),
+				box-shadow var(--pt-duration) var(--pt-ease);
+
+			&::placeholder {
+				color: var(--pt-shell-muted);
+			}
+
+			&:hover {
+				background: color-mix(in srgb, var(--pt-tint) 11%, transparent);
+			}
+
+			&:focus {
+				background: color-mix(in srgb, var(--pt-tint) 12%, transparent);
+				box-shadow:
+					0 0 0 2px var(--pt-ink),
+					0 0 0 4px var(--pt-accent-soft);
+			}
+		}
+
+		.search-icon {
+			inset-inline-start: 14px;
+			--icon-stroke: var(--pt-shell-muted);
+		}
+	}
+
+	.nav-link,
+	.btn-reset {
+		color: var(--pt-shell-text);
+	}
+}
+
+// Below tablet width there is no room for the lockup: the icon only (brand rule: under 90 px).
+@media (max-width: 767.98px) {
+	body[data-route] .navbar .navbar-brand .app-logo {
+		content: url("/assets/positive_theme/images/positive-icon-indigo-dark.svg");
+		inline-size: 32px;
+		block-size: 32px;
+	}
+}
+
+// Page head ---------------------------------------------------------------------------------
+
+body[data-route] .page-head {
+	background: var(--pt-surface-page);
+	border-block-end: 0;
+
+	.title-text {
+		font-size: 24px;
+		line-height: 1.3;
+		font-weight: 700;
+		color: var(--pt-text);
+	}
+
+	.sub-heading {
+		color: var(--pt-text-muted);
+	}
+}
+
+// Navigation sidebar: an ink panel ----------------------------------------------------------
+
+body[data-route] :is(.desk-sidebar, .list-sidebar) {
+	@include pt-on-shell;
+	padding: 12px;
+	border-radius: var(--pt-radius-lg);
+	background: var(--pt-surface-shell);
+	border: 1px solid var(--pt-shell-edge);
+
+	:is(.dropdown-menu, .awesomplete > ul) {
+		@include pt-on-surface;
+	}
+
+	a,
+	.sidebar-label,
+	.standard-sidebar-label {
+		color: var(--pt-shell-text);
+	}
+
+	.standard-sidebar-label,
+	.sidebar-label {
+		padding: 8px 12px 6px;
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--pt-shell-muted);
+	}
+
+	.btn-default,
+	.btn-secondary {
+		background: transparent;
+		color: var(--pt-shell-text);
+
+		&:hover {
+			background: var(--pt-shell-hover);
+		}
+	}
+}
+
+body[data-route] .standard-sidebar-item {
+	position: relative;
+	min-block-size: 40px;
+	border-radius: var(--pt-radius);
+	transition: background-color var(--pt-duration) var(--pt-ease);
+
+	.sidebar-item-label {
+		font-weight: 500;
+	}
+
+	// Active item: indigo tint plus a 3 px accent bar on the inline start.
+	&.selected {
+		background: var(--pt-shell-selected);
+		--icon-stroke: var(--pt-shell-text);
+
+		.sidebar-item-label {
+			font-weight: 600;
+			color: var(--pt-shell-text);
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset-inline-start: 0;
+			inset-block: 10px;
+			inline-size: 3px;
+			border-radius: 3px;
+			background: var(--pt-accent);
+		}
+	}
+}
+
+@media (min-width: 992px) {
+	body[data-route] .layout-side-section {
+		position: sticky;
+		inset-block-start: calc(var(--navbar-height) + var(--page-head-height) + 8px);
+		align-self: flex-start;
+	}
+}
+
+// Sidebar collapse: Frappe toggles display on .layout-side-section; animate the change.
+@media (prefers-reduced-motion: no-preference) and (min-width: 992px) {
+	body[data-route] .layout-side-section {
+		transition:
+			opacity var(--pt-duration) var(--pt-ease),
+			translate var(--pt-duration) var(--pt-ease),
+			display var(--pt-duration) allow-discrete;
+
+		@starting-style {
+			opacity: 0;
+			translate: calc(var(--pt-dir, 1) * -12px) 0;
+		}
+
+		&[style*="display: none"] {
+			opacity: 0;
+			translate: calc(var(--pt-dir, 1) * -12px) 0;
+		}
+	}
+}
+
+// Mobile: the sidebar opens as an overlay; give the drawer the shell surface.
+@media (max-width: 991.98px) {
+	body[data-route] .overlay-sidebar.opened {
+		background: var(--pt-surface-shell);
+	}
+}
+
+// Content cards share one shape --------------------------------------------------------------
+
+body[data-route] .frappe-card {
+	border-radius: var(--pt-radius-lg);
+	border: 1px solid var(--pt-border);
+	box-shadow: var(--pt-shadow-card);
+	background: var(--pt-surface-card);
+}
+
+body[data-route] :is(.dropdown-menu, .popover, .modal-content) {
+	border: 1px solid var(--pt-border);
+	border-radius: var(--pt-radius-md);
+	box-shadow: var(--pt-shadow-pop);
+}
