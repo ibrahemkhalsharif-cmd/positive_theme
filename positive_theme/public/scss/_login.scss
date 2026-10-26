@@ -303,10 +303,12 @@
 		box-shadow: var(--pt-focus-ring);
 	}
 
-	// Inputs are dir="ltr" (emails, passwords); keep their text on the reading side in Arabic.
-	.pt-login[dir="rtl"] & {
-		text-align: end;
-	}
+}
+
+// Inputs are dir="ltr" (emails, passwords); in Arabic keep their text on the reading side, under
+// the right-aligned labels. ("end" of an ltr input is its right edge.)
+.pt-login[dir="rtl"] .pt-input {
+	text-align: end;
 }
 
 .pt-password {
@@ -512,14 +514,31 @@
 	}
 }
 
-// Once the two columns stack (below 940 px), the brand panel becomes a compact header.
+// Once the two columns stack (below 940 px), the page becomes one column: a compact brand header
+// sized to its content, then the sign-in side filling the rest. The container itself cannot be
+// styled from its own container query, so this part is a media query (the page is full width).
+@media (max-width: 939.98px) {
+	.pt-login {
+		flex-direction: column;
+		flex-wrap: nowrap;
+	}
+
+	.pt-login__brand {
+		flex: none;
+	}
+
+	.pt-login__main {
+		flex: 1 0 auto;
+	}
+}
+
 @container pt-login (max-width: 939px) {
 	.pt-login__brand {
-		flex-basis: 100%;
 		min-height: 0;
 		padding: 24px;
 		gap: 16px;
 		border-inline-end: 0;
+		border-block-end: 1px solid var(--pt-shell-edge);
 	}
 
 	.pt-login__logo,
@@ -541,5 +560,42 @@
 
 	.pt-card__title {
 		font-size: 24px;
+	}
+}
+
+// Short screens (laptops at 600-720 px tall): tighten the card so it fits without scrolling.
+@media (max-height: 720px) and (min-width: 940px) {
+	.pt-login__main {
+		padding-block: 12px;
+	}
+
+	.pt-login__center {
+		padding-block: 0;
+	}
+
+	.pt-card {
+		gap: 16px;
+		padding: 28px 32px;
+	}
+
+	.pt-card .page-card-body {
+		gap: 16px;
+	}
+
+	.pt-card .page-card-actions {
+		margin-block-start: 16px;
+	}
+
+	.pt-login .pt-input,
+	.pt-login .pt-btn {
+		block-size: 44px;
+	}
+
+	.pt-password__toggle {
+		block-size: 36px;
+	}
+
+	.pt-note {
+		margin-block-start: 12px;
 	}
 }

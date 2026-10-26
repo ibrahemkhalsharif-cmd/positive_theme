@@ -22,6 +22,15 @@ h6,
 	color: var(--heading-color);
 }
 
+// Search matches: one accent only, so an indigo tint instead of the browser's yellow.
+mark,
+.mark {
+	padding: 0;
+	border-radius: 2px;
+	background: color-mix(in srgb, var(--pt-accent) 22%, transparent);
+	color: inherit;
+}
+
 ::selection {
 	background: color-mix(in srgb, var(--pt-accent) 28%, transparent);
 }
@@ -64,6 +73,21 @@ h6,
 	font-weight: 500;
 }
 
+// Frappe compiles this variant from fixed greys; it carries the skip-to-content link and active
+// filter buttons, so give it readable theme colours.
+.btn.btn-primary-light {
+	background-color: var(--pt-selected);
+	border-color: transparent;
+	color: var(--pt-link);
+
+	&:hover,
+	&:focus,
+	&:active {
+		background-color: color-mix(in srgb, var(--pt-accent) 20%, transparent);
+		color: var(--pt-link);
+	}
+}
+
 .btn {
 	transition:
 		background-color var(--pt-duration) var(--pt-ease),
@@ -81,6 +105,25 @@ h6,
 	text-decoration-color: var(--pt-accent);
 	text-decoration-thickness: 1.5px;
 	text-underline-offset: 3px;
+}
+
+// Frappe's faintest text class (select placeholders, hints) is a grey below 4.5:1.
+.text-extra-muted {
+	// !important: Frappe declares this class's colour with !important; this only swaps the value
+	// for one that passes 4.5:1.
+	color: var(--pt-text-subtle) !important;
+}
+
+// Date picker (air-datepicker): other-month days and the year label are too faint by default.
+.datepicker--cell.-other-month-,
+.datepicker--cell.-other-year-,
+.datepicker--nav-title i {
+	color: var(--pt-text-muted);
+}
+
+.datepicker--cell.-current- {
+	color: var(--pt-link);
+	font-weight: 600;
 }
 
 // Respect reduced motion for everything this theme animates.

@@ -1,3 +1,7 @@
+// Avatar palettes Frappe picks per user. One accent only: every palette becomes the same
+// indigo-tinted circle, which also keeps the initials above 4.5:1 in both themes.
+$pt-avatar-palettes: "blue", "dark-green", "gray", "green", "orange", "pink", "purple", "red", "yellow";
+
 // Re-theme Frappe by overriding its own CSS variables.
 //
 // Not in a @layer on purpose: Frappe's CSS is unlayered, and an unlayered rule always beats a
@@ -165,6 +169,11 @@
 	--timeline-badge-color: var(--pt-text);
 	--timeline-badge-bg: var(--pt-surface-sunken);
 	--user-mention-bg-color: var(--pt-surface-card);
+
+	@each $palette in $pt-avatar-palettes {
+		--#{$palette}-avatar-bg: color-mix(in srgb, var(--pt-accent) 16%, var(--pt-white));
+		--#{$palette}-avatar-color: var(--pt-accent-strong);
+	}
 }
 
 [data-theme="dark"] {
@@ -215,4 +224,9 @@
 	--diff-changed: var(--pt-hover);
 	--scrollbar-thumb-color: color-mix(in srgb, var(--pt-tint) 22%, var(--pt-ink));
 	--scrollbar-track-color: var(--pt-ink);
+
+	@each $palette in $pt-avatar-palettes {
+		--#{$palette}-avatar-bg: color-mix(in srgb, var(--pt-accent) 38%, var(--pt-deep));
+		--#{$palette}-avatar-color: var(--pt-tint);
+	}
 }

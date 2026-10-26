@@ -23,9 +23,9 @@ body[data-route] .widget {
 }
 
 // Workspaces put their widgets straight on the page surface, not inside one more card.
-body[data-route^="Workspaces"] .layout-main-section {
+body[data-route^="Workspaces"] .layout-main-section-wrapper > .layout-main-section {
 	background: transparent;
-	border: 0;
+	border-color: transparent;
 	box-shadow: none;
 }
 

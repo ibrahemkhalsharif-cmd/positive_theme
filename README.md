@@ -87,7 +87,7 @@ changes no core files, so `bench update` and `bench migrate` need no manual step
   `[data-theme]`; the login page follows the operating system setting.
 - **Motion.** Transitions are 150-250 ms and switched off under `prefers-reduced-motion`.
 - **JavaScript** only sets attributes and passes chart options; there are no inline styles and no
-  interval-based DOM patching. `!important` is used three times, each with a comment.
+  interval-based DOM patching. `!important` is used four times, each with a comment explaining why.
 
 ### Fonts and licences
 

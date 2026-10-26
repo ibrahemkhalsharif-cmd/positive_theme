@@ -16,7 +16,7 @@
 		// Text: deep on light
 		--pt-text: var(--pt-deep);
 		--pt-text-muted: color-mix(in srgb, var(--pt-deep) 72%, var(--pt-white));
-		--pt-text-subtle: color-mix(in srgb, var(--pt-deep) 62%, var(--pt-white));
+		--pt-text-subtle: color-mix(in srgb, var(--pt-deep) 66%, var(--pt-white)); // 5:1 on white and tint
 		--pt-link: var(--pt-accent-strong);
 		--pt-on-accent: var(--pt-white);
 		--pt-key-number: var(--pt-accent-soft);

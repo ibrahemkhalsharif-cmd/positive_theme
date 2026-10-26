@@ -75,9 +75,11 @@ header.navbar {
 		max-block-size: none;
 	}
 
+	// One line only; on long trails the earlier crumbs shrink with an ellipsis.
 	#navbar-breadcrumbs {
 		min-inline-size: 0;
-		flex-shrink: 1;
+		flex: 0 1 auto;
+		flex-wrap: nowrap;
 		overflow: hidden;
 
 		li {
@@ -106,6 +108,7 @@ header.navbar {
 	.search-bar {
 		flex: 1 1 auto;
 		inline-size: 100%;
+		min-inline-size: 260px;
 		max-inline-size: 560px;
 		margin-inline: 16px auto;
 
@@ -143,9 +146,10 @@ header.navbar {
 		}
 	}
 
-	.nav-link,
-	.btn-reset {
+	// Bar-level links and icon buttons only; menu items inside dropdowns sit on a light surface.
+	:is(.nav-link, .btn-reset):not(.dropdown-item, .dropdown-menu *) {
 		color: var(--pt-shell-text);
+		white-space: nowrap;
 	}
 }
 
@@ -220,6 +224,46 @@ body[data-route] .layout-side-section > .list-sidebar {
 			background: var(--pt-shell-hover);
 		}
 	}
+
+	// List sidebar: group-by buttons, "Edit Filters" / "Show Tags" links and the save-filter field
+	.list-sidebar-button {
+		min-block-size: 36px;
+		padding-inline: 12px;
+		font-weight: 500;
+	}
+
+	.sidebar-action > a {
+		display: flex;
+		align-items: center;
+		min-block-size: 32px;
+		padding-inline: 12px;
+		border-radius: var(--pt-radius-sm);
+		color: var(--pt-shell-muted);
+		font-size: 13px;
+		font-weight: 500;
+		text-decoration: none;
+
+		&:hover {
+			color: var(--pt-shell-text);
+			background: var(--pt-shell-hover);
+		}
+	}
+
+	.form-control {
+		background: var(--pt-shell-field);
+		color: var(--pt-shell-text);
+		border: 1px solid var(--pt-shell-border);
+
+		&::placeholder {
+			color: var(--pt-shell-muted);
+		}
+
+		&:focus {
+			box-shadow:
+				0 0 0 2px var(--pt-ink),
+				0 0 0 4px var(--pt-accent-soft);
+		}
+	}
 }
 
 body[data-route] .standard-sidebar-item {
@@ -251,6 +295,22 @@ body[data-route] .standard-sidebar-item {
 			border-radius: 3px;
 			background: var(--pt-accent);
 		}
+	}
+}
+
+// Sidebar column: 248 px as designed (Frappe's col-lg-2 is about 185 px at 1440), 220 px on
+// smaller desktops. The main column is Frappe's flexible .col, so it takes the rest.
+@media (min-width: 992px) {
+	body[data-route] .layout-main > .layout-side-section {
+		flex: 0 0 220px;
+		max-inline-size: 220px;
+	}
+}
+
+@media (min-width: 1200px) {
+	body[data-route] .layout-main > .layout-side-section {
+		flex-basis: var(--pt-sidebar-width);
+		max-inline-size: var(--pt-sidebar-width);
 	}
 }
 
