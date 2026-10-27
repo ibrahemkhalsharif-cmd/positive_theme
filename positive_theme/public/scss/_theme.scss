@@ -68,4 +68,9 @@
 	[dir="rtl"] {
 		--pt-font: var(--pt-font-rtl);
 	}
+
+	// Red colour set: white on this red is 3.9:1, so text on the accent is ink (4.9:1).
+	[data-pt-palette="red"] {
+		--pt-on-accent: var(--pt-ink);
+	}
 }

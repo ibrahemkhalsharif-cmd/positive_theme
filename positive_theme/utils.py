@@ -10,7 +10,8 @@ from functools import cache
 
 import frappe
 
-TOKEN_RE = re.compile(r"--pt-([a-z0-9-]+):\s*(#[0-9a-fA-F]{3,8})\s*;")
+TOKEN_RE = re.compile(r"--pt-([a-z0-9-]+):\s*(#[0-9a-fA-F]{3,8}|var\(--pt-[a-z0-9-]+\))\s*;")
+VAR_RE = re.compile(r"var\(--pt-([a-z0-9-]+)\)")
 
 PRINT_FONTS = (
 	# family, weight, file in public/fonts
@@ -26,7 +27,17 @@ PRINT_FONTS = (
 def _read_tokens() -> dict:
 	path = frappe.get_app_path("positive_theme", "public", "scss", "_tokens.scss")
 	with open(path, encoding="utf-8") as f:
-		return {name.replace("-", "_"): value for name, value in TOKEN_RE.findall(f.read())}
+		source = f.read()
+	# Only the :root block: the brand default. Alternate colour sets (the theme picker's "Red")
+	# come after it and do not apply to print or email.
+	source = source.split('[data-pt-palette="', 1)[0]
+	raw = dict(TOKEN_RE.findall(source))
+
+	def resolve(value, depth=0):
+		match = VAR_RE.fullmatch(value)
+		return resolve(raw[match.group(1)], depth + 1) if match and depth < 5 else value
+
+	return {name.replace("-", "_"): resolve(value) for name, value in raw.items()}
 
 
 @cache

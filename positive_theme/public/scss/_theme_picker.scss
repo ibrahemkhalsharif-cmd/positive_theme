@@ -1,0 +1,121 @@
+// Navbar theme picker (built by positive_theme.bundle.js left of the notifications bell).
+
+header.navbar .pt-theme-picker__toggle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	inline-size: 40px;
+	block-size: 40px;
+	padding: 0;
+	border-radius: var(--pt-radius);
+	color: var(--pt-shell-text);
+	transition: background-color var(--pt-duration) var(--pt-ease);
+
+	&:hover,
+	&[aria-expanded="true"] {
+		background: var(--pt-shell-hover);
+	}
+}
+
+.pt-theme-picker__menu {
+	min-inline-size: 200px;
+	padding: 6px;
+}
+
+.pt-theme-picker__item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	inline-size: 100%;
+	min-block-size: 40px;
+	padding-inline: 10px;
+	border: 0;
+	border-radius: var(--pt-radius-sm);
+	background: transparent;
+	color: var(--pt-text);
+	font: inherit;
+	font-size: 14px;
+	text-align: start;
+
+	&:hover,
+	&:focus-visible {
+		background: var(--pt-hover);
+		color: var(--pt-text);
+	}
+
+	&[aria-checked="true"] {
+		font-weight: 600;
+
+		.pt-theme-picker__check {
+			visibility: visible;
+		}
+	}
+}
+
+.pt-theme-picker__check {
+	margin-inline-start: auto;
+	visibility: hidden;
+	color: var(--pt-link);
+}
+
+// Swatches preview each option: its surface with a dot of its accent.
+.pt-swatch {
+	position: relative;
+	flex: none;
+	inline-size: 22px;
+	block-size: 22px;
+	border-radius: 6px;
+	box-shadow: inset 0 0 0 1px var(--pt-border-strong);
+
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 6px;
+		border-radius: 50%;
+	}
+
+	&--light {
+		background: var(--pt-set-indigo-tint);
+
+		&::after {
+			background: var(--pt-set-indigo-accent);
+		}
+	}
+
+	&--dark {
+		background: var(--pt-set-indigo-ink);
+
+		&::after {
+			background: color-mix(in srgb, var(--pt-set-indigo-accent) 50%, var(--pt-white));
+		}
+	}
+
+	&--red {
+		background: var(--pt-set-red-tint);
+
+		&::after {
+			background: var(--pt-set-red-accent);
+		}
+	}
+}
+
+// The switch itself: a short cross-fade (View Transitions), off for reduced motion.
+@media (prefers-reduced-motion: no-preference) {
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation-duration: var(--pt-duration-slow);
+		animation-timing-function: var(--pt-ease);
+	}
+}
+
+// The navbar logo matches the active colour set: the lockup carries its own ink background, so
+// the indigo file would show as a box on the red set's ink.
+[data-pt-palette="red"] header.navbar .navbar-brand .app-logo {
+	content: url("/assets/positive_theme/images/positive-horizontal-red-on-dark.svg");
+}
+
+@media (max-width: 767.98px) {
+	[data-pt-palette="red"] header.navbar .navbar-brand .app-logo {
+		content: url("/assets/positive_theme/images/positive-icon-red-dark.svg");
+	}
+}

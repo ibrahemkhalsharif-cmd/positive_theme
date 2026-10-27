@@ -1,0 +1,36 @@
+{#- Frappe email footer, overridden by positive_theme so only the Positive footer is shown
+    (ERPNext adds "Sent via ERPNext" through the same hook). Apps installed later win the
+    template lookup; the override disappears when positive_theme is uninstalled. -#}
+<div class="email-footer-container text-muted">
+	<!-- email_account_footer -->
+	{% if email_account_footer %}
+	<div class="email-account-footer">
+		{{ email_account_footer }}
+	</div>
+	{% endif %}
+
+	<!-- sender_address -->
+	{% if sender_address %}
+	<div class="sender-address">
+		{% for line in sender_address.splitlines(True) %}
+		<div>{{ line }}</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+	<!--unsubscribe link here-->
+
+	<div class="email-pixel">
+		<!--email_open_check-->
+	</div>
+
+	<!-- default_mail_footer -->
+	{% if default_mail_footer %}
+	<div class="default-mail-footer">
+		{% for line in default_mail_footer if "positive-mail-footer" in line %}
+		<div>{{ line }}</div>
+		{% endfor %}
+	</div>
+	{% endif %}
+
+</div>

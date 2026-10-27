@@ -230,3 +230,23 @@ $pt-avatar-palettes: "blue", "dark-green", "gray", "green", "orange", "pink", "p
 		--#{$palette}-avatar-color: var(--pt-tint);
 	}
 }
+
+// Red colour set: a solid red "Paid" pill would read as an error, so Paid becomes solid deep and
+// Submitted a deep tint. Pills still differ in lightness.
+[data-pt-palette="red"] {
+	--bg-green: var(--pt-deep);
+	--text-on-green: var(--pt-tint);
+	--bg-blue: color-mix(in srgb, var(--pt-deep) 18%, var(--pt-white));
+	--text-on-blue: var(--pt-deep);
+	--bg-light-blue: var(--bg-blue);
+	--text-on-light-blue: var(--text-on-blue);
+	--bg-dark-blue: var(--bg-blue);
+	--text-on-dark-blue: var(--text-on-blue);
+}
+
+[data-pt-palette="red"][data-theme="dark"] {
+	--bg-green: var(--pt-tint);
+	--text-on-green: var(--pt-deep);
+	--bg-blue: color-mix(in srgb, var(--pt-tint) 22%, var(--pt-deep));
+	--text-on-blue: var(--pt-tint);
+}

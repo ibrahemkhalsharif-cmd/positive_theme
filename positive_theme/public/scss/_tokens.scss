@@ -18,11 +18,22 @@
 
 @layer pt.tokens {
 	:root {
-		// Brand palette
-		--pt-accent: #7361e5;
-		--pt-ink: #100e23;
-		--pt-deep: #1d1a3a;
-		--pt-tint: #f4f3fe;
+		// Colour sets from the Positive colour-set sheet: indigo (the brand default) and red
+		// (offered by the navbar theme picker). Each set has the same four roles.
+		--pt-set-indigo-accent: #7361e5;
+		--pt-set-indigo-ink: #100e23;
+		--pt-set-indigo-deep: #1d1a3a;
+		--pt-set-indigo-tint: #f4f3fe;
+		--pt-set-red-accent: #ea4735;
+		--pt-set-red-ink: #1f0d0b;
+		--pt-set-red-deep: #3b1712;
+		--pt-set-red-tint: #fff4f2;
+
+		// Brand palette: the active colour set
+		--pt-accent: var(--pt-set-indigo-accent);
+		--pt-ink: var(--pt-set-indigo-ink);
+		--pt-deep: var(--pt-set-indigo-deep);
+		--pt-tint: var(--pt-set-indigo-tint);
 		--pt-white: #ffffff;
 		--pt-black: #000000;
 
@@ -56,5 +67,13 @@
 		// Layout
 		--pt-navbar-height: 56px;
 		--pt-sidebar-width: 248px;
+	}
+
+	// The theme picker's "Red" option: the same roles, red set. Set on <html> by the picker.
+	[data-pt-palette="red"] {
+		--pt-accent: var(--pt-set-red-accent);
+		--pt-ink: var(--pt-set-red-ink);
+		--pt-deep: var(--pt-set-red-deep);
+		--pt-tint: var(--pt-set-red-tint);
 	}
 }

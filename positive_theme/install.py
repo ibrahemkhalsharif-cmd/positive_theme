@@ -4,24 +4,76 @@ Everything set here is recorded first and put back in before_uninstall, so after
 `bench --site <site> uninstall-app positive_theme` the site looks exactly like stock.
 """
 
+import json
+
 import frappe
 
 from positive_theme.utils import brand_tokens
 
 LOGO_URL = "/assets/positive_theme/images/positive-horizontal-indigo-on-dark.svg"
 LETTER_HEAD = "Positive"
+BRAND_NAME = "Positive"
 PREV_LOGO_KEY = "positive_theme_previous_app_logo"
 SET_DEFAULT_LH_KEY = "positive_theme_set_default_letter_head"
+PREV_APP_NAMES_KEY = "positive_theme_previous_app_names"
+HIDDEN_HELP_KEY = "positive_theme_hidden_help_items"
+PALETTE_KEY = "pt_palette"  # per-user theme picker choice (positive_theme.bundle.js)
+
+# Help menu entries that point at Frappe / ERPNext (their sites, or the About box listing them).
+VENDOR_HELP = ("frappe.io", "erpnext.com", "discuss.frappe.io", "github.com/frappe", "show_about")
 
 
 def after_install():
 	set_navbar_logo()
 	create_letter_head()
+	apply_brand_settings()
 
 
 def before_uninstall():
 	restore_navbar_logo()
 	remove_letter_head()
+	restore_brand_settings()
+	frappe.db.delete("DefaultValue", {"defkey": PALETTE_KEY})
+
+
+def apply_brand_settings():
+	"""Name the app "Positive" and hide Help menu entries that lead to Frappe / ERPNext."""
+	if frappe.db.get_default(PREV_APP_NAMES_KEY) is None:
+		previous = {
+			"System Settings": frappe.db.get_single_value("System Settings", "app_name"),
+			"Website Settings": frappe.db.get_single_value("Website Settings", "app_name"),
+		}
+		frappe.db.set_default(PREV_APP_NAMES_KEY, json.dumps(previous))
+	for doctype in ("System Settings", "Website Settings"):
+		frappe.db.set_single_value(doctype, "app_name", BRAND_NAME)
+
+	settings = frappe.get_single("Navbar Settings")
+	hidden = json.loads(frappe.db.get_default(HIDDEN_HELP_KEY) or "[]")
+	for row in settings.help_dropdown:
+		target = row.route or row.action or ""
+		if not row.hidden and any(v in target for v in VENDOR_HELP):
+			row.hidden = 1
+			hidden.append(row.name)
+	settings.save(ignore_permissions=True)
+	frappe.db.set_default(HIDDEN_HELP_KEY, json.dumps(hidden))
+
+
+def restore_brand_settings():
+	previous = frappe.db.get_default(PREV_APP_NAMES_KEY)
+	if previous is not None:
+		for doctype, value in json.loads(previous).items():
+			if frappe.db.get_single_value(doctype, "app_name") == BRAND_NAME:
+				frappe.db.set_single_value(doctype, "app_name", value)
+		frappe.defaults.clear_default(PREV_APP_NAMES_KEY)
+
+	hidden = set(json.loads(frappe.db.get_default(HIDDEN_HELP_KEY) or "[]"))
+	if hidden:
+		settings = frappe.get_single("Navbar Settings")
+		for row in settings.help_dropdown:
+			if row.name in hidden:
+				row.hidden = 0
+		settings.save(ignore_permissions=True)
+	frappe.defaults.clear_default(HIDDEN_HELP_KEY)
 
 
 def set_navbar_logo():

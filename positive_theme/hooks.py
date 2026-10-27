@@ -49,6 +49,12 @@ jinja = {
 	"methods": ["positive_theme.utils.brand_tokens"],
 }
 
+# Desk boot
+# ---------
+# The user's colour set from the navbar theme picker, applied before the desk renders.
+
+boot_session = "positive_theme.api.boot_session"
+
 # Install / uninstall
 # -------------------
 
