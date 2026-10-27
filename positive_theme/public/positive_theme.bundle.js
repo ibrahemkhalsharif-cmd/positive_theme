@@ -3,15 +3,17 @@
 // sets attributes and passes options; all visuals live in the SCSS.
 
 // Theme picker -------------------------------------------------------------------------------
-// A navbar button left of the notifications bell with three choices. Light and Dark are Frappe's
-// own desk theme (saved on the user by switch_theme); Red is the red colour set on the light
-// theme, saved per user by positive_theme.api.set_palette and sent back in the desk boot.
+// A navbar button left of the notifications bell with four choices. Light and Dark are Frappe's
+// own desk theme (saved on the user by switch_theme); Red and Red Dark are the red colour set on
+// the light or dark theme, the set saved per user by positive_theme.api.set_palette and sent back
+// in the desk boot.
 
 const pt_root = document.documentElement;
 const PT_THEMES = [
 	{ id: "light", label: "Light", theme: "light", palette: "" },
 	{ id: "dark", label: "Dark", theme: "dark", palette: "" },
 	{ id: "red", label: "Red", theme: "light", palette: "red" },
+	{ id: "red-dark", label: "Red Dark", theme: "dark", palette: "red" },
 ];
 
 function pt_set_palette(palette) {
@@ -25,8 +27,9 @@ if (window.frappe && frappe.boot && frappe.boot.pt_palette !== undefined) {
 }
 
 function pt_current_theme() {
-	if (pt_root.getAttribute("data-pt-palette") === "red") return "red";
-	return pt_root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+	const dark = pt_root.getAttribute("data-theme") === "dark";
+	if (pt_root.getAttribute("data-pt-palette") === "red") return dark ? "red-dark" : "red";
+	return dark ? "dark" : "light";
 }
 
 function pt_sync_picker() {

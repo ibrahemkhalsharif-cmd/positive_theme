@@ -97,6 +97,14 @@ header.navbar .pt-theme-picker__toggle {
 			background: var(--pt-set-red-accent);
 		}
 	}
+
+	&--red-dark {
+		background: var(--pt-set-red-ink);
+
+		&::after {
+			background: var(--pt-set-red-accent);
+		}
+	}
 }
 
 // The switch itself: a short cross-fade (View Transitions), off for reduced motion.
@@ -118,6 +126,11 @@ header.navbar .pt-theme-picker__toggle {
 	content: url("/assets/positive_theme/images/positive-horizontal-red-on-white.svg");
 }
 
+// Red Dark: the red lockup with its own ink, the same colour as the red set's dark bar.
+[data-theme="dark"][data-pt-palette="red"] header.navbar .navbar-brand .app-logo {
+	content: url("/assets/positive_theme/images/positive-horizontal-red-on-dark.svg");
+}
+
 @media (max-width: 767.98px) {
 	[data-theme="light"] header.navbar .navbar-brand .app-logo {
 		content: url("/assets/positive_theme/images/positive-icon-indigo-light.svg");
@@ -125,5 +138,9 @@ header.navbar .pt-theme-picker__toggle {
 
 	[data-theme="light"][data-pt-palette="red"] header.navbar .navbar-brand .app-logo {
 		content: url("/assets/positive_theme/images/positive-icon-red-light.svg");
+	}
+
+	[data-theme="dark"][data-pt-palette="red"] header.navbar .navbar-brand .app-logo {
+		content: url("/assets/positive_theme/images/positive-icon-red-dark.svg");
 	}
 }
