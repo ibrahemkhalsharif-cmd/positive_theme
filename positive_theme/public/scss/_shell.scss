@@ -40,6 +40,21 @@ body[data-route] {
 	background: var(--pt-surface-page);
 }
 
+// Light theme (and the Red set, which is light): the navbar and the navigation panel turn white
+// with deep text, so the whole desk follows the theme switch. The pt-on-shell components above
+// read these same tokens, so only the values change here. The login page's brand panel keeps
+// the ink shell.
+[data-theme="light"] :is(header.navbar, body[data-route] .layout-side-section) {
+	--pt-surface-shell: var(--pt-white);
+	--pt-shell-text: var(--pt-text);
+	--pt-shell-muted: var(--pt-text-muted);
+	--pt-shell-hover: var(--pt-hover);
+	--pt-shell-field: var(--pt-surface-sunken);
+	--pt-shell-border: var(--pt-border-strong);
+	--pt-shell-edge: var(--pt-border);
+	--pt-shell-selected: var(--pt-selected);
+}
+
 [dir="rtl"] {
 	--pt-dir: -1;
 }
@@ -153,8 +168,29 @@ header.navbar {
 	}
 }
 
+[data-theme="light"] header.navbar .search-bar .form-control {
+	&:hover {
+		background: var(--pt-pressed);
+	}
+
+	&:focus {
+		background: var(--pt-white);
+		box-shadow: var(--pt-focus-ring);
+	}
+}
+
 // Below tablet width there is no room for the lockup: the icon only (brand rule: under 90 px).
 @media (max-width: 767.98px) {
+	// The search field shrinks with the bar so the icons stay on screen.
+	header.navbar .search-bar {
+		min-inline-size: 0;
+		margin-inline: 8px;
+	}
+
+	header.navbar .navbar-brand {
+		margin-inline-end: 0;
+	}
+
 	header.navbar .navbar-brand .app-logo {
 		content: url("/assets/positive_theme/images/positive-icon-indigo-dark.svg");
 		inline-size: 32px;

@@ -108,14 +108,22 @@ header.navbar .pt-theme-picker__toggle {
 	}
 }
 
-// The navbar logo matches the active colour set: the lockup carries its own ink background, so
-// the indigo file would show as a box on the red set's ink.
-[data-pt-palette="red"] header.navbar .navbar-brand .app-logo {
-	content: url("/assets/positive_theme/images/positive-horizontal-red-on-dark.svg");
+// The navbar logo matches the bar and the colour set. The default (Navbar Settings) is the
+// lockup for the dark bar; the light bar uses copies without a background box, indigo or red.
+[data-theme="light"] header.navbar .navbar-brand .app-logo {
+	content: url("/assets/positive_theme/images/positive-horizontal-indigo-on-white.svg");
+}
+
+[data-theme="light"][data-pt-palette="red"] header.navbar .navbar-brand .app-logo {
+	content: url("/assets/positive_theme/images/positive-horizontal-red-on-white.svg");
 }
 
 @media (max-width: 767.98px) {
-	[data-pt-palette="red"] header.navbar .navbar-brand .app-logo {
-		content: url("/assets/positive_theme/images/positive-icon-red-dark.svg");
+	[data-theme="light"] header.navbar .navbar-brand .app-logo {
+		content: url("/assets/positive_theme/images/positive-icon-indigo-light.svg");
+	}
+
+	[data-theme="light"][data-pt-palette="red"] header.navbar .navbar-brand .app-logo {
+		content: url("/assets/positive_theme/images/positive-icon-red-light.svg");
 	}
 }
