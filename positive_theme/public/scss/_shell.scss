@@ -162,6 +162,43 @@ header.navbar {
 	}
 }
 
+// Desktop header: brand at the inline start of the window, search centred in it, actions at
+// the end. The search field is taken out of the flow so its centre is the window's centre,
+// whatever the brand and action widths are; the breadcrumbs shrink to stay clear of it.
+@media (min-width: 992px) {
+	header.navbar > .container {
+		position: relative;
+	}
+
+	header.navbar .search-bar {
+		position: absolute;
+		inset-inline-start: 50%;
+		translate: calc(var(--pt-dir, 1) * -50%) 0;
+		inline-size: clamp(260px, 100% - 600px, 560px);
+		min-inline-size: 0;
+		max-inline-size: none;
+		margin: 0;
+	}
+
+	header.navbar #navbar-breadcrumbs {
+		max-inline-size: calc((100% - clamp(260px, 100% - 600px, 560px)) / 2 - 180px);
+	}
+}
+
+// Full width: the header, page title and content span the window, with no empty bands at the
+// sides (Frappe centres them in a fixed-width container).
+header.navbar > .container,
+body[data-route] .page-head > .container,
+body[data-route] .container.page-body {
+	inline-size: 100%;
+	max-inline-size: none;
+	padding-inline: 24px;
+}
+
+header.navbar > .container {
+	padding-inline: 16px;
+}
+
 // Page head ---------------------------------------------------------------------------------
 
 body[data-route] .page-head {
@@ -322,29 +359,110 @@ body[data-route] .standard-sidebar-item {
 	}
 }
 
-// Sidebar collapse: Frappe toggles display on .layout-side-section; animate the change.
-@media (prefers-reduced-motion: no-preference) and (min-width: 992px) {
-	body[data-route] .layout-side-section {
-		transition:
-			opacity var(--pt-duration) var(--pt-ease),
-			translate var(--pt-duration) var(--pt-ease),
-			display var(--pt-duration) allow-discrete;
+// Navigation panel (workspaces and list views), desktop: fixed to the inline-start edge of the
+// window, from under the navbar to the bottom, beside the page title. The page-head toggle
+// (positive_theme.bundle.js) collapses it: workspaces keep a rail of their icons, list sidebars
+// (filters and group-by, no icons) close. Form sidebars stay in the page; phones and tablets keep
+// Frappe's overlay drawer.
+@media (min-width: 992px) {
+	body[data-route] {
+		--pt-panel-width: var(--pt-sidebar-width);
+	}
 
-		@starting-style {
-			opacity: 0;
-			translate: calc(var(--pt-dir, 1) * -12px) 0;
+	[data-pt-sidebar-collapsed] body[data-route] {
+		--pt-panel-width: var(--pt-rail-width);
+	}
+
+	body[data-route] .page-container:has(.layout-side-section:not([style*="display: none"]) > .list-sidebar) {
+		padding-inline-start: var(--pt-panel-width);
+	}
+
+	body[data-route] .layout-main > .layout-side-section:has(> .list-sidebar) {
+		position: fixed;
+		z-index: 1010;
+		inset-block: var(--navbar-height) 0;
+		inset-inline-start: 0;
+		inline-size: var(--pt-panel-width);
+		max-inline-size: none;
+		// Height comes from the insets. Any self-alignment would size it to its content instead,
+		// and the browser then shifts the overflowing panel up under the navbar.
+		block-size: auto;
+		align-self: auto;
+		padding: 0;
+		overflow: hidden auto;
+		scrollbar-width: thin;
+		scrollbar-color: var(--pt-shell-border) transparent;
+		background: var(--pt-surface-shell);
+		border-inline-end: 1px solid var(--pt-shell-edge);
+
+		> .list-sidebar {
+			max-block-size: none;
+			overflow: visible;
+			border: 0;
+			border-radius: 0;
+			background: transparent;
 		}
 
-		&[style*="display: none"] {
-			opacity: 0;
-			translate: calc(var(--pt-dir, 1) * -12px) 0;
+		// Frappe pulls items 10 px outward to sit flush in its unpadded column.
+		.sidebar-item-container {
+			margin-inline-start: 0;
+		}
+
+		.item-anchor {
+			white-space: nowrap;
+		}
+	}
+
+	// Collapsed list view: no panel at all.
+	[data-pt-sidebar-collapsed] body[data-route] .layout-side-section:has(> .list-sidebar):not(:has(.desk-sidebar)) {
+		display: none;
+	}
+
+	[data-pt-sidebar-collapsed] body[data-route] .page-container:not(:has(.desk-sidebar)) {
+		--pt-panel-width: 0px;
+	}
+
+	// Collapsed workspace sidebar: the icons only, centred; the item title shows on hover. The
+	// rail still scrolls, without a scrollbar that would push the icons off centre.
+	[data-pt-sidebar-collapsed] body[data-route] .layout-side-section:has(.desk-sidebar) {
+		scrollbar-width: none;
+	}
+
+	[data-pt-sidebar-collapsed] body[data-route] .list-sidebar:has(.desk-sidebar) {
+		padding-inline: 12px;
+
+		:is(.standard-sidebar-label, .sidebar-item-label, .sidebar-item-control, .sidebar-child-item) {
+			display: none;
+		}
+
+		.item-anchor {
+			justify-content: center;
+			padding-inline: 0;
+		}
+
+		.sidebar-item-icon {
+			margin: 0;
 		}
 	}
 }
 
-// Mobile: the sidebar opens as an overlay; give the drawer the shell surface.
+// Slide only while the toggle is used (the script sets the attribute for the length of the
+// change); otherwise the panel would also animate from Frappe's column width on page load.
+@media (prefers-reduced-motion: no-preference) and (min-width: 992px) {
+	[data-pt-sidebar-moving] body[data-route] .page-container,
+	[data-pt-sidebar-moving] body[data-route] .layout-side-section:has(> .list-sidebar) {
+		transition:
+			padding-inline-start var(--pt-duration-slow) var(--pt-ease),
+			inline-size var(--pt-duration-slow) var(--pt-ease);
+	}
+}
+
+// Mobile: the sidebar opens as an overlay; give the drawer the shell surface and the full
+// window height (the panel's card height cap does not apply to it).
 @media (max-width: 991.98px) {
-	body[data-route] .overlay-sidebar.opened {
+	body[data-route] .layout-side-section > .overlay-sidebar.opened {
+		max-block-size: none;
+		border-radius: 0;
 		background: var(--pt-surface-shell);
 	}
 }

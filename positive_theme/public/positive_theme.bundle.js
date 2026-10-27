@@ -101,6 +101,76 @@ if (window.jQuery) {
 	jQuery(document).on("toolbar_setup", pt_build_picker);
 }
 
+// Sidebar ------------------------------------------------------------------------------------
+// On desktop the navigation sidebar is a panel on the window edge (_shell.scss). The page-head
+// toggle collapses it to an icon rail instead of hiding it, and the choice is remembered in this
+// browser. Frappe's own handler (which hides the column) is skipped for these pages only; form
+// sidebars, phones and tablets keep Frappe's behaviour.
+
+const PT_SIDEBAR_KEY = "pt_sidebar_collapsed";
+const pt_desktop = window.matchMedia("(min-width: 992px)");
+
+function pt_read_sidebar_choice() {
+	try {
+		return localStorage.getItem(PT_SIDEBAR_KEY) === "1";
+	} catch (e) {
+		return false;
+	}
+}
+
+let pt_sidebar_moving;
+
+function pt_set_sidebar(collapsed) {
+	pt_root.setAttribute("data-pt-sidebar-moving", "");
+	clearTimeout(pt_sidebar_moving);
+	pt_sidebar_moving = setTimeout(() => pt_root.removeAttribute("data-pt-sidebar-moving"), 400);
+	pt_root.toggleAttribute("data-pt-sidebar-collapsed", collapsed);
+	try {
+		localStorage.setItem(PT_SIDEBAR_KEY, collapsed ? "1" : "0");
+	} catch (e) {
+		// Private windows can refuse storage; the choice then lasts for this page load.
+	}
+	pt_sync_sidebar_toggles();
+}
+
+function pt_sync_sidebar_toggles() {
+	const collapsed = pt_root.hasAttribute("data-pt-sidebar-collapsed");
+	document.querySelectorAll(".page-container").forEach((page) => {
+		if (!page.querySelector(".layout-side-section > .list-sidebar")) return;
+		page.querySelectorAll(".page-head .sidebar-toggle-btn").forEach((toggle) => {
+			toggle.setAttribute("aria-expanded", String(!collapsed));
+			const icon = toggle.querySelector(".sidebar-toggle-icon");
+			if (icon && window.frappe && frappe.utils && frappe.utils.icon) {
+				icon.innerHTML = frappe.utils.icon(
+					collapsed ? "es-line-sidebar-expand" : "es-line-sidebar-collapse",
+					"md"
+				);
+			}
+		});
+	});
+}
+
+if (pt_read_sidebar_choice()) pt_root.setAttribute("data-pt-sidebar-collapsed", "");
+
+// Capture phase on the document runs before Frappe's handler on the button, so stopping the
+// event here replaces it.
+document.addEventListener(
+	"click",
+	(event) => {
+		const toggle = event.target.closest && event.target.closest(".page-head .sidebar-toggle-btn");
+		if (!toggle || !pt_desktop.matches) return;
+		const page = toggle.closest(".page-container");
+		if (!page || !page.querySelector(".layout-side-section > .list-sidebar")) return;
+		event.stopPropagation();
+		pt_set_sidebar(!pt_root.hasAttribute("data-pt-sidebar-collapsed"));
+	},
+	true
+);
+
+if (window.jQuery) {
+	jQuery(document).on("page-change", () => setTimeout(pt_sync_sidebar_toggles));
+}
+
 // Charts -------------------------------------------------------------------------------------
 // frappe-charts writes series colours as inline styles, so CSS cannot recolour them. Pass the
 // brand palette in as the chart's own `colors` option instead: accent for the main series, then
