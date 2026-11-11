@@ -99,10 +99,22 @@ body[data-route] {
 		}
 	}
 
+	// No overflow: hidden here. Link-field dropdowns (Account, Party…) open inside the table and
+	// must be able to hang below it, so the rounded corners are drawn on the first and last rows.
 	.form-grid {
 		border: 1px solid var(--pt-border);
 		border-radius: var(--pt-radius-md);
-		overflow: hidden;
+
+		> .grid-heading-row {
+			border-start-start-radius: calc(var(--pt-radius-md) - 1px);
+			border-start-end-radius: calc(var(--pt-radius-md) - 1px);
+		}
+
+		> .grid-body > .rows > .grid-row:last-child,
+		> .grid-body > .grid-empty {
+			border-end-start-radius: calc(var(--pt-radius-md) - 1px);
+			border-end-end-radius: calc(var(--pt-radius-md) - 1px);
+		}
 	}
 
 	.grid-heading-row {

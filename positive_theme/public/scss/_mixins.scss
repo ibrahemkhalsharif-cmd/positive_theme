@@ -4,6 +4,7 @@
 	--pt-surface-page: var(--pt-ink);
 	--pt-surface-card: var(--pt-deep);
 	--pt-surface-raised: color-mix(in srgb, var(--pt-tint) 6%, var(--pt-deep));
+	--pt-surface-overlay: color-mix(in srgb, var(--pt-tint) 11%, var(--pt-deep));
 	--pt-surface-shell: var(--pt-ink);
 	--pt-surface-sunken: color-mix(in srgb, var(--pt-tint) 4%, var(--pt-ink));
 	--pt-surface-key: var(--pt-deep);

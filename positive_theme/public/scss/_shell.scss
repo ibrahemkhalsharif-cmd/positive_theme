@@ -524,3 +524,13 @@ body[data-route] :is(.dropdown-menu, .popover, .modal-content) {
 	border-radius: var(--pt-radius-md);
 	box-shadow: var(--pt-shadow-pop);
 }
+
+// Menus, link-field lists and the date picker paint with --fg-color, which is the card colour. In the dark theme
+// that made them the same colour as the form under them, so they looked see-through. Give them
+// their own overlay surface (a step above cards and raised panels) and a firmer edge. The listbox
+// selector matches Frappe's own (.awesomplete > [role="listbox"]) so this rule wins over it.
+:is(.dropdown-menu, .awesomplete > ul, .awesomplete > [role="listbox"], .datepicker) {
+	--fg-color: var(--pt-surface-overlay);
+	background-color: var(--pt-surface-overlay);
+	border-color: var(--pt-border-strong);
+}
